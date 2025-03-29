@@ -58,6 +58,7 @@ h1, h2, h3, h4, h5, h6 {
 
 p {
     margin-bottom: 1rem;
+    text-align: justify;
 }
 
 a {
@@ -263,9 +264,11 @@ nav a i {
     margin-bottom: 30px;
 }
 
+/* Form group with positioning context */
 .form-group {
     margin-bottom: 15px;
     position: relative;
+    padding-right: 0;
 }
 
 .form-group label {
@@ -274,39 +277,65 @@ nav a i {
     font-weight: 500;
 }
 
+/* Base form control style */
 .form-control {
     width: 100%;
     padding: 12px;
+    padding-right: 12px;
     border: 1px solid var(--border-color);
     border-radius: 4px;
     font-size: 16px;
     transition: var(--transition);
+    box-sizing: border-box;
+    height: 46px;
 }
 
 .form-control:focus {
     outline: none;
     border-color: var(--primary-color);
-    box-shadow: 0 0 0 2px rgba(25, 118, 210, 0.2);
+    box-shadow: 0 0 0 2px rgba(0, 71, 171, 0.2);
 }
 
+/* Generic validation icon base style - removing completely */
 .validation-icon {
-    position: absolute;
-    right: 10px;
-    top: 40px;
-    color: var(--success-color);
+    display: none; /* Hide all validation icons */
 }
 
+/* Remove specific positioning for form group */
+.form-group:not(.select-wrapper) .validation-icon {
+    /* No additional styling needed */
+}
+
+/* Select wrapper styling */
 .select-wrapper {
     position: relative;
+    display: block;
+    width: 100%;
 }
 
+/* Select dropdown styling */
+.select-wrapper .form-control {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    padding-right: 30px;
+    width: 100%;
+}
+
+/* Select dropdown arrow positioning */
 .select-arrow {
     position: absolute;
-    right: 15px;
-    top: 45%;
+    right: 12px;
+    top: 50%;
     transform: translateY(-50%);
     pointer-events: none;
     color: #666;
+    z-index: 1;
+}
+
+/* Remove specific positioning for select wrapper */
+.select-wrapper .validation-icon {
+    /* No additional styling needed */
 }
 
 .form-navigation {
@@ -1266,6 +1295,12 @@ footer {
     font-size: 18px;
 }
 
+.what-if-chart-container canvas {
+    height: 300px !important;
+    max-height: 300px;
+    width: 100% !important;
+}
+
 .what-if-recommendations {
     background-color: #f9f9f9;
     border-radius: 5px;
@@ -1315,4 +1350,26 @@ footer {
     .risk-comparison-arrow {
         transform: rotate(90deg);
     }
+}
+
+/* Add validation states for form controls */
+.form-control.valid {
+    border-color: var(--success-color);
+    border-width: 2px;
+}
+
+.form-control.invalid {
+    border-color: var(--danger-color);
+    border-width: 2px;
+}
+
+/* Add different focus states based on validation */
+.form-control.valid:focus {
+    box-shadow: 0 0 0 2px rgba(76, 175, 80, 0.2);
+    outline: none;
+}
+
+.form-control.invalid:focus {
+    box-shadow: 0 0 0 2px rgba(244, 67, 54, 0.2);
+    outline: none;
 } 

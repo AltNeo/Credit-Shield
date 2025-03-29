@@ -152,75 +152,145 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Form Validation Functions
     function validateLoanInfo() {
-        const loanAmount = document.getElementById('loan-amount').value;
-        const interestRate = document.getElementById('interest-rate').value;
-        const monthlyPayment = document.getElementById('monthly-payment').value;
+        let isValid = true;
         
-        if (!loanAmount || isNaN(loanAmount) || loanAmount <= 0) {
-            showError('loan-amount', 'Please enter a valid loan amount');
-            return false;
+        // Validate loan amount
+        const loanAmount = document.getElementById('loan-amount');
+        if (!loanAmount.value || isNaN(loanAmount.value) || parseFloat(loanAmount.value) <= 0) {
+            markInvalid(loanAmount, 'Please enter a valid loan amount');
+            isValid = false;
+        } else {
+            markValid(loanAmount);
         }
         
-        if (!interestRate || isNaN(interestRate) || interestRate <= 0) {
-            showError('interest-rate', 'Please enter a valid interest rate');
-            return false;
+        // Validate loan term
+        const loanTerm = document.getElementById('loan-term');
+        if (!loanTerm.value || isNaN(loanTerm.value) || parseInt(loanTerm.value) <= 0) {
+            markInvalid(loanTerm, 'Please enter a valid loan term');
+            isValid = false;
+        } else {
+            markValid(loanTerm);
         }
         
-        if (!monthlyPayment || isNaN(monthlyPayment) || monthlyPayment <= 0) {
-            showError('monthly-payment', 'Please enter a valid monthly payment');
-            return false;
+        // Validate interest rate
+        const interestRate = document.getElementById('interest-rate');
+        if (!interestRate.value || isNaN(interestRate.value) || parseFloat(interestRate.value) <= 0) {
+            markInvalid(interestRate, 'Please enter a valid interest rate');
+            isValid = false;
+        } else {
+            markValid(interestRate);
         }
         
-        return true;
+        // Validate monthly payment
+        const monthlyPayment = document.getElementById('monthly-payment');
+        if (!monthlyPayment.value || isNaN(monthlyPayment.value) || parseFloat(monthlyPayment.value) <= 0) {
+            markInvalid(monthlyPayment, 'Please enter a valid monthly payment');
+            isValid = false;
+        } else {
+            markValid(monthlyPayment);
+        }
+        
+        return isValid;
     }
     
     function validateBorrowerInfo() {
-        const annualIncome = document.getElementById('annual-income').value;
+        let isValid = true;
         
-        if (!annualIncome || isNaN(annualIncome) || annualIncome <= 0) {
-            showError('annual-income', 'Please enter a valid annual income');
-            return false;
+        // Validate annual income
+        const annualIncome = document.getElementById('annual-income');
+        if (!annualIncome.value || isNaN(annualIncome.value) || parseFloat(annualIncome.value) <= 0) {
+            markInvalid(annualIncome, 'Please enter a valid annual income');
+            isValid = false;
+        } else {
+            markValid(annualIncome);
         }
         
-        return true;
+        // Validate employment length
+        const employmentLength = document.getElementById('employment-length');
+        if (!employmentLength.value || isNaN(employmentLength.value) || parseInt(employmentLength.value) < 0) {
+            markInvalid(employmentLength, 'Please enter a valid employment length');
+            isValid = false;
+        } else {
+            markValid(employmentLength);
+        }
+        
+        // Validate select fields
+        const homeOwnership = document.getElementById('home-ownership');
+        if (!homeOwnership.value) {
+            markInvalid(homeOwnership, 'Please select a home ownership status');
+            isValid = false;
+        } else {
+            markValid(homeOwnership);
+        }
+        
+        const loanPurpose = document.getElementById('loan-purpose');
+        if (!loanPurpose.value) {
+            markInvalid(loanPurpose, 'Please select a loan purpose');
+            isValid = false;
+        } else {
+            markValid(loanPurpose);
+        }
+        
+        return isValid;
     }
     
     function validateCreditInfo() {
-        const debtToIncome = document.getElementById('debt-to-income').value;
-        const ficoLow = document.getElementById('fico-low').value;
-        const ficoHigh = document.getElementById('fico-high').value;
+        let isValid = true;
         
-        if (!debtToIncome || isNaN(debtToIncome) || debtToIncome < 0) {
-            showError('debt-to-income', 'Please enter a valid debt-to-income ratio');
-            return false;
+        // Validate debt to income
+        const debtToIncome = document.getElementById('debt-to-income');
+        if (!debtToIncome.value || isNaN(debtToIncome.value) || parseFloat(debtToIncome.value) < 0) {
+            markInvalid(debtToIncome, 'Please enter a valid debt-to-income ratio');
+            isValid = false;
+        } else {
+            markValid(debtToIncome);
         }
         
-        if (!ficoLow || isNaN(ficoLow) || ficoLow < 300 || ficoLow > 850) {
-            showError('fico-low', 'Please enter a valid FICO score (300-850)');
-            return false;
+        // Validate FICO scores
+        const ficoLow = document.getElementById('fico-low');
+        if (!ficoLow.value || isNaN(ficoLow.value) || parseInt(ficoLow.value) < 300 || parseInt(ficoLow.value) > 850) {
+            markInvalid(ficoLow, 'Please enter a valid FICO score (300-850)');
+            isValid = false;
+        } else {
+            markValid(ficoLow);
         }
         
-        if (!ficoHigh || isNaN(ficoHigh) || ficoHigh < 300 || ficoHigh > 850) {
-            showError('fico-high', 'Please enter a valid FICO score (300-850)');
-            return false;
+        const ficoHigh = document.getElementById('fico-high');
+        if (!ficoHigh.value || isNaN(ficoHigh.value) || parseInt(ficoHigh.value) < 300 || parseInt(ficoHigh.value) > 850 || 
+            (ficoLow.value && parseInt(ficoHigh.value) < parseInt(ficoLow.value))) {
+            markInvalid(ficoHigh, 'Please enter a valid FICO score (must be ≥ low score)');
+            isValid = false;
+        } else {
+            markValid(ficoHigh);
         }
         
-        if (parseInt(ficoLow) > parseInt(ficoHigh)) {
-            showError('fico-high', 'High range must be greater than or equal to low range');
-            return false;
+        // Validate delinquencies
+        const delinquencies = document.getElementById('delinquencies');
+        if (!delinquencies.value || isNaN(delinquencies.value) || parseInt(delinquencies.value) < 0) {
+            markInvalid(delinquencies, 'Please enter a valid number of delinquencies');
+            isValid = false;
+        } else {
+            markValid(delinquencies);
         }
         
-        return true;
+        return isValid;
     }
     
     function validateAll() {
         return validateLoanInfo() && validateBorrowerInfo() && validateCreditInfo();
     }
     
-    function showError(inputId, message) {
-        const input = document.getElementById(inputId);
-        if (input) {
-            input.classList.add('error');
+    function markValid(input) {
+        input.classList.remove('invalid');
+        input.classList.add('valid');
+    }
+    
+    function markInvalid(input, message) {
+        input.classList.remove('valid');
+        input.classList.add('invalid');
+        
+        // Show error message only if explicitly submitting a section
+        if (message) {
             alert(message);
             input.focus();
         }
@@ -270,7 +340,101 @@ document.addEventListener('DOMContentLoaded', function() {
     const formInputs = document.querySelectorAll('.form-control');
     formInputs.forEach(input => {
         input.addEventListener('input', function() {
-            this.classList.remove('error');
+            // Perform immediate validation when user types
+            const inputId = this.id;
+            
+            if (inputId.includes('loan-') || inputId === 'interest-rate' || inputId === 'monthly-payment') {
+                // Validate loan inputs
+                if (inputId === 'loan-amount') {
+                    if (!this.value || isNaN(this.value) || parseFloat(this.value) <= 0) {
+                        markInvalid(this);
+                    } else {
+                        markValid(this);
+                    }
+                } else if (inputId === 'loan-term') {
+                    if (!this.value || isNaN(this.value) || parseInt(this.value) <= 0) {
+                        markInvalid(this);
+                    } else {
+                        markValid(this);
+                    }
+                } else if (inputId === 'interest-rate') {
+                    if (!this.value || isNaN(this.value) || parseFloat(this.value) <= 0) {
+                        markInvalid(this);
+                    } else {
+                        markValid(this);
+                    }
+                } else if (inputId === 'monthly-payment') {
+                    if (!this.value || isNaN(this.value) || parseFloat(this.value) <= 0) {
+                        markInvalid(this);
+                    } else {
+                        markValid(this);
+                    }
+                }
+            } else if (inputId === 'annual-income' || inputId === 'employment-length' || 
+                        inputId === 'home-ownership' || inputId === 'loan-purpose') {
+                // Validate borrower inputs
+                if (inputId === 'annual-income') {
+                    if (!this.value || isNaN(this.value) || parseFloat(this.value) <= 0) {
+                        markInvalid(this);
+                    } else {
+                        markValid(this);
+                    }
+                } else if (inputId === 'employment-length') {
+                    if (!this.value || isNaN(this.value) || parseInt(this.value) < 0) {
+                        markInvalid(this);
+                    } else {
+                        markValid(this);
+                    }
+                } else if (inputId === 'home-ownership' || inputId === 'loan-purpose') {
+                    if (!this.value) {
+                        markInvalid(this);
+                    } else {
+                        markValid(this);
+                    }
+                }
+            } else if (inputId === 'debt-to-income' || inputId === 'fico-low' || 
+                        inputId === 'fico-high' || inputId === 'delinquencies') {
+                // Validate credit inputs
+                if (inputId === 'debt-to-income') {
+                    if (!this.value || isNaN(this.value) || parseFloat(this.value) < 0) {
+                        markInvalid(this);
+                    } else {
+                        markValid(this);
+                    }
+                } else if (inputId === 'fico-low') {
+                    if (!this.value || isNaN(this.value) || parseInt(this.value) < 300 || parseInt(this.value) > 850) {
+                        markInvalid(this);
+                    } else {
+                        markValid(this);
+                        // Also revalidate the high score field if it exists
+                        const ficoHigh = document.getElementById('fico-high');
+                        if (ficoHigh && ficoHigh.value) {
+                            if (parseInt(ficoHigh.value) < parseInt(this.value)) {
+                                markInvalid(ficoHigh);
+                            } else {
+                                markValid(ficoHigh);
+                            }
+                        }
+                    }
+                } else if (inputId === 'fico-high') {
+                    const ficoLow = document.getElementById('fico-low');
+                    if (!this.value || isNaN(this.value) || parseInt(this.value) < 300 || parseInt(this.value) > 850 || 
+                        (ficoLow && ficoLow.value && parseInt(this.value) < parseInt(ficoLow.value))) {
+                        markInvalid(this);
+                    } else {
+                        markValid(this);
+                    }
+                } else if (inputId === 'delinquencies') {
+                    if (!this.value || isNaN(this.value) || parseInt(this.value) < 0) {
+                        markInvalid(this);
+                    } else {
+                        markValid(this);
+                    }
+                }
+            }
         });
+        
+        // Initial validation when the page loads
+        input.dispatchEvent(new Event('input'));
     });
 }); 

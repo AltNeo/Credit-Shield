@@ -287,15 +287,42 @@
                 scales: {
                     y: {
                         beginAtZero: true,
+                        max: 20, // Set a fixed maximum value
+                        grid: {
+                            drawBorder: true,
+                            borderWidth: 1
+                        },
+                        ticks: {
+                            precision: 0,
+                            stepSize: 5
+                        },
                         title: {
                             display: true,
                             text: 'Impact on Risk Score (%)'
+                        }
+                    },
+                    x: {
+                        grid: {
+                            display: false
                         }
                     }
                 },
                 plugins: {
                     legend: {
                         display: false
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                return `Impact: ${context.raw}%`;
+                            }
+                        }
+                    }
+                },
+                layout: {
+                    padding: {
+                        top: 5,
+                        bottom: 5
                     }
                 }
             }
