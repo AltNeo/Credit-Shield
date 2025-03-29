@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>What-If Analysis | CreditShield</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">
+                <i class="fas fa-shield-alt"></i>
+                <h1>CreditShield</h1>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="{{ url_for('home') }}"><i class="fas fa-home"></i> Home</a></li>
+                    <li><a href="{{ url_for('dashboard') }}"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+                    <li><a href="{{ url_for('model_performance') }}"><i class="fas fa-chart-line"></i> Model Performance</a></li>
+                    <li><a href="{{ url_for('what_if') }}" class="active"><i class="fas fa-sliders-h"></i> What-If Analysis</a></li>
+                    <li><a href="{{ url_for('about') }}"><i class="fas fa-info-circle"></i> About</a></li>
+                </ul>
+            </nav>
+        </header>
+        
+        <main>
+            <div class="form-header">
+                <h2>What-If Analysis</h2>
+            </div>
+            
+            <div class="info-box">
+                Adjust loan and borrower parameters to see how they affect the credit risk assessment. This tool helps you understand the impact of different factors on risk grade.
+            </div>
+            
+            <div class="what-if-container">
+                <div class="what-if-inputs">
+                    <h2>Adjust Parameters</h2>
+                    <form id="what-if-form">
+                        <div class="form-group">
+                            <label for="loan-amount">Loan Amount</label>
+                            <div class="slider-container">
+                                <input type="range" id="loan-amount-slider" min="1000" max="100000" step="1000" value="10000" class="slider">
+                                <input type="number" id="loan-amount" name="loan-amount" value="10000" class="form-control">
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="loan-term">Loan Term (months)</label>
+                            <div class="slider-container">
+                                <input type="range" id="loan-term-slider" min="12" max="84" step="12" value="36" class="slider">
+                                <input type="number" id="loan-term" name="loan-term" value="36" class="form-control">
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="interest-rate">Interest Rate (%)</label>
+                            <div class="slider-container">
+                                <input type="range" id="interest-rate-slider" min="1" max="30" step="0.5" value="10" class="slider">
+                                <input type="number" id="interest-rate" name="interest-rate" value="10" step="0.5" class="form-control">
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="fico-score">FICO Score</label>
+                            <div class="slider-container">
+                                <input type="range" id="fico-score-slider" min="300" max="850" step="10" value="700" class="slider">
+                                <input type="number" id="fico-score" name="fico-score" value="700" class="form-control">
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="debt-to-income">Debt-to-Income Ratio (%)</label>
+                            <div class="slider-container">
+                                <input type="range" id="debt-to-income-slider" min="0" max="60" step="1" value="25" class="slider">
+                                <input type="number" id="debt-to-income" name="debt-to-income" value="25" class="form-control">
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="employment-length">Employment Length (years)</label>
+                            <div class="slider-container">
+                                <input type="range" id="employment-length-slider" min="0" max="20" step="1" value="5" class="slider">
+                                <input type="number" id="employment-length" name="employment-length" value="5" class="form-control">
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="delinquencies">Delinquencies (past 2 years)</label>
+                            <div class="slider-container">
+                                <input type="range" id="delinquencies-slider" min="0" max="10" step="1" value="0" class="slider">
+                                <input type="number" id="delinquencies" name="delinquencies" value="0" class="form-control">
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="home-ownership">Home Ownership</label>
+                            <select id="home-ownership" name="home-ownership" class="form-control">
+                                <option value="rent">Rent</option>
+                                <option value="own">Own</option>
+                                <option value="mortgage">Mortgage</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="loan-purpose">Loan Purpose</label>
+                            <select id="loan-purpose" name="loan-purpose" class="form-control">
+                                <option value="debt-consolidation">Debt Consolidation</option>
+                                <option value="credit-card">Credit Card</option>
+                                <option value="home-improvement">Home Improvement</option>
+                                <option value="major-purchase">Major Purchase</option>
+                                <option value="medical">Medical</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+                        
+                        <button type="button" id="calculate-what-if" class="btn btn-primary">Run Analysis</button>
+                    </form>
+                </div>
+                
+                <div class="what-if-results">
+                    <h2>Analysis Results</h2>
+                    <div class="risk-comparison">
+                        <div class="risk-original">
+                            <h3>Original Risk Assessment</h3>
+                            <div class="grade-circle original-grade">
+                                <span id="original-grade">C</span>
+                            </div>
+                            <div class="risk-score">
+                                <div class="progress-container">
+                                    <div class="progress-bar" id="original-progress" style="width: 75%;"></div>
+                                </div>
+                                <span class="score-value" id="original-score">75%</span>
+                            </div>
+                        </div>
+                        
+                        <div class="risk-comparison-arrow">
+                            <i class="fas fa-arrow-right"></i>
+                        </div>
+                        
+                        <div class="risk-adjusted">
+                            <h3>Adjusted Risk Assessment</h3>
+                            <div class="grade-circle adjusted-grade">
+                                <span id="adjusted-grade">B</span>
+                            </div>
+                            <div class="risk-score">
+                                <div class="progress-container">
+                                    <div class="progress-bar" id="adjusted-progress" style="width: 45%;"></div>
+                                </div>
+                                <span class="score-value" id="adjusted-score">45%</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="impact-factors">
+                        <h3>Impact Analysis</h3>
+                        <div class="impact-list">
+                            <div class="impact-item positive">
+                                <i class="fas fa-arrow-down"></i>
+                                <span class="impact-text">Lower loan amount reduced risk by 15%</span>
+                            </div>
+                            <div class="impact-item positive">
+                                <i class="fas fa-arrow-down"></i>
+                                <span class="impact-text">Higher FICO score reduced risk by 10%</span>
+                            </div>
+                            <div class="impact-item negative">
+                                <i class="fas fa-arrow-up"></i>
+                                <span class="impact-text">Higher debt-to-income ratio increased risk by 5%</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="what-if-chart-container">
+                        <h3>Parameter Sensitivity</h3>
+                        <canvas id="sensitivityChart"></canvas>
+                    </div>
+                    
+                    <div class="what-if-recommendations">
+                        <h3>Recommendations</h3>
+                        <ul id="recommendations">
+                            <li><i class="fas fa-check-circle"></i> Reducing your debt-to-income ratio below 20% would significantly improve your credit risk grade.</li>
+                            <li><i class="fas fa-check-circle"></i> Improving your FICO score by 50 points could raise your grade from C to B.</li>
+                            <li><i class="fas fa-check-circle"></i> Reducing the loan amount by $5,000 would lower your risk assessment.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </main>
+        
+        <footer>
+            <p>&copy; {{ now().year }} CreditShield. All rights reserved.</p>
+        </footer>
+    </div>
+    
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Connect sliders to input fields
+        const sliders = {
+            'loan-amount': document.getElementById('loan-amount-slider'),
+            'loan-term': document.getElementById('loan-term-slider'),
+            'interest-rate': document.getElementById('interest-rate-slider'),
+            'fico-score': document.getElementById('fico-score-slider'),
+            'debt-to-income': document.getElementById('debt-to-income-slider'),
+            'employment-length': document.getElementById('employment-length-slider'),
+            'delinquencies': document.getElementById('delinquencies-slider')
+        };
+        
+        // Update input when slider changes
+        Object.keys(sliders).forEach(key => {
+            const slider = sliders[key];
+            const input = document.getElementById(key);
+            
+            slider.addEventListener('input', function() {
+                input.value = slider.value;
+            });
+            
+            input.addEventListener('input', function() {
+                slider.value = input.value;
+            });
+        });
+        
+        // Handle Run Analysis button
+        document.getElementById('calculate-what-if').addEventListener('click', function() {
+            const formData = {
+                loanAmount: document.getElementById('loan-amount').value,
+                loanTerm: document.getElementById('loan-term').value,
+                interestRate: document.getElementById('interest-rate').value,
+                ficoScore: document.getElementById('fico-score').value,
+                debtToIncome: document.getElementById('debt-to-income').value,
+                employmentLength: document.getElementById('employment-length').value,
+                delinquencies: document.getElementById('delinquencies').value,
+                homeOwnership: document.getElementById('home-ownership').value,
+                loanPurpose: document.getElementById('loan-purpose').value
+            };
+            
+            // Call the API for what-if analysis
+            fetch('/api/what_if', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(formData),
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                // Update the UI with the results
+                displayWhatIfResults(data);
+            })
+            .catch(error => {
+                console.error('Error running what-if analysis:', error);
+                alert('There was an error running the analysis. Please try again.');
+            });
+        });
+        
+        // Initialize Sensitivity Chart
+        const ctxSensitivity = document.getElementById('sensitivityChart').getContext('2d');
+        const sensitivityChart = new Chart(ctxSensitivity, {
+            type: 'bar',
+            data: {
+                labels: ['FICO Score', 'Debt-to-Income', 'Loan Amount', 'Employment Length', 'Interest Rate', 'Delinquencies', 'Loan Term'],
+                datasets: [{
+                    label: 'Risk Impact',
+                    data: [15, 12, 8, 6, 5, 4, 2],
+                    backgroundColor: [
+                        '#4caf50',
+                        '#f44336',
+                        '#2196f3',
+                        '#ff9800',
+                        '#9c27b0',
+                        '#e91e63',
+                        '#00bcd4'
+                    ],
+                    borderWidth: 0
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'Impact on Risk Score (%)'
+                        }
+                    }
+                },
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                }
+            }
+        });
+        
+        // Function to update the UI with what-if results
+        function displayWhatIfResults(result) {
+            // Update grade circles
+            document.getElementById('original-grade').textContent = result.original.grade;
+            document.getElementById('adjusted-grade').textContent = result.adjusted.grade;
+            
+            // Update progress bars
+            document.getElementById('original-progress').style.width = `${result.original.riskPercent}%`;
+            document.getElementById('adjusted-progress').style.width = `${result.adjusted.riskPercent}%`;
+            
+            // Update score values
+            document.getElementById('original-score').textContent = `${result.original.riskPercent}%`;
+            document.getElementById('adjusted-score').textContent = `${result.adjusted.riskPercent}%`;
+            
+            // Update grade circle colors
+            const originalGradeElement = document.querySelector('.original-grade');
+            const adjustedGradeElement = document.querySelector('.adjusted-grade');
+            
+            originalGradeElement.style.backgroundColor = result.original.circleColor;
+            adjustedGradeElement.style.backgroundColor = result.adjusted.circleColor;
+            
+            // Update impact factors
+            const impactList = document.querySelector('.impact-list');
+            impactList.innerHTML = '';
+            
+            result.impacts.forEach(impact => {
+                const impactItem = document.createElement('div');
+                impactItem.className = `impact-item ${impact.effect === 'positive' ? 'positive' : 'negative'}`;
+                
+                const icon = document.createElement('i');
+                icon.className = `fas ${impact.effect === 'positive' ? 'fa-arrow-down' : 'fa-arrow-up'}`;
+                
+                const span = document.createElement('span');
+                span.className = 'impact-text';
+                span.textContent = impact.text;
+                
+                impactItem.appendChild(icon);
+                impactItem.appendChild(span);
+                impactList.appendChild(impactItem);
+            });
+            
+            // Update recommendations
+            const recommendationsList = document.getElementById('recommendations');
+            recommendationsList.innerHTML = '';
+            
+            result.recommendations.forEach(rec => {
+                const li = document.createElement('li');
+                const icon = document.createElement('i');
+                icon.className = 'fas fa-check-circle';
+                
+                li.appendChild(icon);
+                li.appendChild(document.createTextNode(' ' + rec));
+                recommendationsList.appendChild(li);
+            });
+            
+            // Update sensitivity chart
+            sensitivityChart.data.labels = result.sensitivity.factors;
+            sensitivityChart.data.datasets[0].data = result.sensitivity.impacts;
+            sensitivityChart.update();
+        }
+    });
+    </script>
+</body>
+</html> 

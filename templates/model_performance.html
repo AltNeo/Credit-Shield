@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Model Performance | CreditShield</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">
+                <i class="fas fa-shield-alt"></i>
+                <h1>CreditShield</h1>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="{{ url_for('home') }}"><i class="fas fa-home"></i> Home</a></li>
+                    <li><a href="{{ url_for('dashboard') }}"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+                    <li><a href="{{ url_for('model_performance') }}" class="active"><i class="fas fa-chart-line"></i> Model Performance</a></li>
+                    <li><a href="{{ url_for('what_if') }}"><i class="fas fa-sliders-h"></i> What-If Analysis</a></li>
+                    <li><a href="{{ url_for('about') }}"><i class="fas fa-info-circle"></i> About</a></li>
+                </ul>
+            </nav>
+        </header>
+        
+        <main>
+            <div class="form-header">
+                <h2>Model Performance Metrics</h2>
+            </div>
+            
+            <div class="model-comparison">
+                <div class="model-metrics-card">
+                    <div class="model-header">
+                        <h2>Default Model</h2>
+                        <span class="model-badge">Random Forest</span>
+                    </div>
+                    <div class="metrics-content">
+                        <div class="metrics-summary">
+                            <div class="metric-item">
+                                <span class="metric-value">{{ metrics.default_model.accuracy }}%</span>
+                                <span class="metric-label">Accuracy</span>
+                            </div>
+                            <div class="metric-item">
+                                <span class="metric-value">{{ metrics.default_model.auc }}</span>
+                                <span class="metric-label">AUC</span>
+                            </div>
+                            <div class="metric-item">
+                                <span class="metric-value">{{ metrics.default_model.f1_score }}</span>
+                                <span class="metric-label">F1 Score</span>
+                            </div>
+                        </div>
+                        
+                        <div class="metrics-chart">
+                            <canvas id="defaultModelChart"></canvas>
+                        </div>
+                        
+                        <div class="metrics-details">
+                            <p><strong>Training Dataset Size:</strong> {{ metrics.default_model.training_size }} records</p>
+                            <p><strong>Last Updated:</strong> {{ metrics.default_model.last_updated }}</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="model-metrics-card">
+                    <div class="model-header">
+                        <h2>Alternative Model</h2>
+                        <span class="model-badge">XGBoost</span>
+                    </div>
+                    <div class="metrics-content">
+                        <div class="metrics-summary">
+                            <div class="metric-item">
+                                <span class="metric-value">{{ metrics.alternative_model.accuracy }}%</span>
+                                <span class="metric-label">Accuracy</span>
+                            </div>
+                            <div class="metric-item">
+                                <span class="metric-value">{{ metrics.alternative_model.auc }}</span>
+                                <span class="metric-label">AUC</span>
+                            </div>
+                            <div class="metric-item">
+                                <span class="metric-value">{{ metrics.alternative_model.f1_score }}</span>
+                                <span class="metric-label">F1 Score</span>
+                            </div>
+                        </div>
+                        
+                        <div class="metrics-chart">
+                            <canvas id="alternativeModelChart"></canvas>
+                        </div>
+                        
+                        <div class="metrics-details">
+                            <p><strong>Training Dataset Size:</strong> {{ metrics.alternative_model.training_size }} records</p>
+                            <p><strong>Last Updated:</strong> {{ metrics.alternative_model.last_updated }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="feature-importance">
+                <h2>Feature Importance</h2>
+                <div class="chart-container">
+                    <canvas id="featureImportanceChart"></canvas>
+                </div>
+                <div class="feature-explanation">
+                    <h3>Key Features Explanation</h3>
+                    <div class="feature-list">
+                        <div class="feature-item">
+                            <span class="feature-name">FICO Score</span>
+                            <div class="feature-bar" style="width: 90%"></div>
+                            <span class="feature-value">90%</span>
+                            <p class="feature-desc">Credit score is the strongest predictor of credit risk, with higher scores indicating lower risk.</p>
+                        </div>
+                        <div class="feature-item">
+                            <span class="feature-name">Debt-to-Income Ratio</span>
+                            <div class="feature-bar" style="width: 75%"></div>
+                            <span class="feature-value">75%</span>
+                            <p class="feature-desc">The ratio of total debt payments to income is a strong indicator of financial stress.</p>
+                        </div>
+                        <div class="feature-item">
+                            <span class="feature-name">Employment Length</span>
+                            <div class="feature-bar" style="width: 65%"></div>
+                            <span class="feature-value">65%</span>
+                            <p class="feature-desc">Longer employment history typically indicates stability and lower risk.</p>
+                        </div>
+                        <div class="feature-item">
+                            <span class="feature-name">Delinquencies</span>
+                            <div class="feature-bar" style="width: 60%"></div>
+                            <span class="feature-value">60%</span>
+                            <p class="feature-desc">Past payment behavior is predictive of future payment behavior.</p>
+                        </div>
+                        <div class="feature-item">
+                            <span class="feature-name">Loan Amount to Income</span>
+                            <div class="feature-bar" style="width: 55%"></div>
+                            <span class="feature-value">55%</span>
+                            <p class="feature-desc">The size of the loan relative to income affects ability to repay.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+        
+        <footer>
+            <p>&copy; {{ now().year }} CreditShield. All rights reserved.</p>
+        </footer>
+    </div>
+    
+    <script>
+        // Initialize charts when the DOM is loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            // Default Model Chart - ROC Curve
+            const defaultCtx = document.getElementById('defaultModelChart').getContext('2d');
+            const defaultModelChart = new Chart(defaultCtx, {
+                type: 'line',
+                data: {
+                    labels: [0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0],
+                    datasets: [{
+                        label: 'ROC Curve',
+                        data: [0, 0.35, 0.55, 0.68, 0.75, 0.81, 0.86, 0.91, 0.95, 0.98, 1.0],
+                        borderColor: '#1976d2',
+                        backgroundColor: 'rgba(25, 118, 210, 0.1)',
+                        borderWidth: 2,
+                        fill: true
+                    }, {
+                        label: 'Random Guess',
+                        data: [0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0],
+                        borderColor: '#888',
+                        borderWidth: 1,
+                        borderDash: [5, 5],
+                        fill: false
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: 'ROC Curve (AUC: 0.89)'
+                        },
+                        legend: {
+                            position: 'bottom'
+                        }
+                    },
+                    scales: {
+                        x: {
+                            title: {
+                                display: true,
+                                text: 'False Positive Rate'
+                            }
+                        },
+                        y: {
+                            title: {
+                                display: true,
+                                text: 'True Positive Rate'
+                            }
+                        }
+                    }
+                }
+            });
+            
+            // Alternative Model Chart - ROC Curve
+            const alternativeCtx = document.getElementById('alternativeModelChart').getContext('2d');
+            const alternativeModelChart = new Chart(alternativeCtx, {
+                type: 'line',
+                data: {
+                    labels: [0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0],
+                    datasets: [{
+                        label: 'ROC Curve',
+                        data: [0, 0.40, 0.60, 0.72, 0.79, 0.84, 0.89, 0.93, 0.96, 0.99, 1.0],
+                        borderColor: '#4caf50',
+                        backgroundColor: 'rgba(76, 175, 80, 0.1)',
+                        borderWidth: 2,
+                        fill: true
+                    }, {
+                        label: 'Random Guess',
+                        data: [0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0],
+                        borderColor: '#888',
+                        borderWidth: 1,
+                        borderDash: [5, 5],
+                        fill: false
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: 'ROC Curve (AUC: 0.91)'
+                        },
+                        legend: {
+                            position: 'bottom'
+                        }
+                    },
+                    scales: {
+                        x: {
+                            title: {
+                                display: true,
+                                text: 'False Positive Rate'
+                            }
+                        },
+                        y: {
+                            title: {
+                                display: true,
+                                text: 'True Positive Rate'
+                            }
+                        }
+                    }
+                }
+            });
+            
+            // Feature Importance Chart
+            const featureCtx = document.getElementById('featureImportanceChart').getContext('2d');
+            const featureImportanceChart = new Chart(featureCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['FICO Score', 'Debt-to-Income', 'Employment Length', 'Delinquencies', 'Loan/Income Ratio', 'Loan Purpose', 'Home Ownership', 'Loan Term'],
+                    datasets: [{
+                        label: 'Feature Importance',
+                        data: [0.32, 0.23, 0.17, 0.12, 0.08, 0.04, 0.03, 0.01],
+                        backgroundColor: [
+                            '#1976d2', '#2196f3', '#29b6f6', '#4fc3f7', 
+                            '#81d4fa', '#b3e5fc', '#e1f5fe', '#f1f8e9'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    indexAxis: 'y',
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: 'Feature Importance in Default Model'
+                        },
+                        legend: {
+                            display: false
+                        }
+                    },
+                    scales: {
+                        x: {
+                            title: {
+                                display: true,
+                                text: 'Relative Importance'
+                            }
+                        }
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html> 

@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About CreditShield | Credit Risk Assessment</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">
+                <i class="fas fa-shield-alt"></i>
+                <h1>CreditShield</h1>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="{{ url_for('home') }}"><i class="fas fa-home"></i> Home</a></li>
+                    <li><a href="{{ url_for('dashboard') }}"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+                    <li><a href="{{ url_for('model_performance') }}"><i class="fas fa-chart-line"></i> Model Performance</a></li>
+                    <li><a href="{{ url_for('what_if') }}"><i class="fas fa-sliders-h"></i> What-If Analysis</a></li>
+                    <li><a href="{{ url_for('about') }}" class="active"><i class="fas fa-info-circle"></i> About</a></li>
+                </ul>
+            </nav>
+        </header>
+        
+        <main>
+            <div class="form-header">
+                <h2>About CreditShield</h2>
+            </div>
+            
+            <div class="about-section">
+                <div class="about-content">
+                    <div class="about-image">
+                        <i class="fas fa-shield-alt fa-5x"></i>
+                    </div>
+                    
+                    <div class="about-text">
+                        <h2>Our Mission</h2>
+                        <p>CreditShield is designed to provide financial analysts with a reliable and efficient tool for assessing credit risk. Our mission is to help financial institutions make informed lending decisions by providing a comprehensive risk assessment framework.</p>
+                        
+                        <h2>Our Technology</h2>
+                        <p>The CreditShield platform uses sophisticated machine learning algorithms to predict credit risk based on various borrower and loan characteristics. The models are trained on extensive datasets and continuously refined to ensure high accuracy.</p>
+                        
+                        <h2>Risk Assessment Methodology</h2>
+                        <p>Our risk assessment methodology takes into account multiple factors:</p>
+                        <ul>
+                            <li><strong>Credit Score:</strong> The borrower's FICO score range</li>
+                            <li><strong>Debt-to-Income Ratio:</strong> The proportion of income that goes toward debt payments</li>
+                            <li><strong>Employment History:</strong> The stability and length of employment</li>
+                            <li><strong>Delinquency History:</strong> Past payment behavior</li>
+                            <li><strong>Loan Characteristics:</strong> The amount, term, and purpose of the loan</li>
+                        </ul>
+                        
+                        <h2>Grading System</h2>
+                        <p>CreditShield uses a comprehensive A-G grading system to categorize credit risk:</p>
+                        <div class="grades-list">
+                            <div class="grade-item">
+                                <span class="grade-circle" style="background-color: #4caf50;">A</span>
+                                <div class="grade-desc">Very Low Credit Risk (Score: 90-100)</div>
+                            </div>
+                            <div class="grade-item">
+                                <span class="grade-circle" style="background-color: #8bc34a;">B</span>
+                                <div class="grade-desc">Low Credit Risk (Score: 80-89)</div>
+                            </div>
+                            <div class="grade-item">
+                                <span class="grade-circle" style="background-color: #cddc39;">C</span>
+                                <div class="grade-desc">Moderate Credit Risk (Score: 70-79)</div>
+                            </div>
+                            <div class="grade-item">
+                                <span class="grade-circle" style="background-color: #ffeb3b;">D</span>
+                                <div class="grade-desc">Average Credit Risk (Score: 60-69)</div>
+                            </div>
+                            <div class="grade-item">
+                                <span class="grade-circle" style="background-color: #ffc107;">E</span>
+                                <div class="grade-desc">Elevated Credit Risk (Score: 50-59)</div>
+                            </div>
+                            <div class="grade-item">
+                                <span class="grade-circle" style="background-color: #ff9800;">F</span>
+                                <div class="grade-desc">High Credit Risk (Score: 40-49)</div>
+                            </div>
+                            <div class="grade-item">
+                                <span class="grade-circle" style="background-color: #f44336;">G</span>
+                                <div class="grade-desc">Very High Credit Risk (Score: <40)</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="about-team">
+                    <h2>Meet the Team</h2>
+                    <p>CreditShield was developed as part of a capstone project at AB InBev. Our team consists of data scientists, financial analysts, and software engineers dedicated to creating innovative fintech solutions.</p>
+                </div>
+
+                <div class="contact-section">
+                    <h2>Contact Us</h2>
+                    <p>For more information about CreditShield or to provide feedback, please contact us at:</p>
+                    <div class="contact-info">
+                        <p><i class="fas fa-envelope"></i> info@creditshield.example.com</p>
+                        <p><i class="fas fa-phone"></i> +1 (555) 123-4567</p>
+                    </div>
+                </div>
+            </div>
+        </main>
+        
+        <footer>
+            <p>&copy; {{ now().year }} CreditShield. All rights reserved.</p>
+        </footer>
+    </div>
+</body>
+</html> 

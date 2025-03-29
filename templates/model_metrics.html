@@ -1,0 +1,146 @@
+{% extends "base.html" %}
+
+{% block title %}Credit Risk Model - Metrics and Performance - Capstone Project 244{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-12">
+            <h1 class="text-primary mb-4">Model Performance Metrics <span class="badge bg-info">Educational Demo</span></h1>
+            <div class="alert alert-info">
+                <i class="fas fa-info-circle"></i> <strong>Note:</strong> This is a demonstration model created for Capstone Project 244. All metrics shown are for educational purposes using synthetic data.
+            </div>
+            <div class="card shadow mb-4">
+                <div class="card-header bg-primary text-white">
+                    <h2 class="h5 mb-0">Model Overview</h2>
+                </div>
+                <div class="card-body">
+                    <p>This credit risk assessment model demonstrates how machine learning can be applied to financial risk prediction. The model used in this educational demonstration is based on ensemble learning techniques trained on synthetic data.</p>
+                    
+                    <div class="row mt-4">
+                        <div class="col-md-6">
+                            <div class="card border-success mb-3">
+                                <div class="card-header bg-success text-white">Key Performance Indicators</div>
+                                <div class="card-body">
+                                    <p class="card-text">
+                                        <ul>
+                                            <li><strong>ROC-AUC:</strong> {{ metrics.roc_auc|round(4) }}</li>
+                                            <li><strong>Accuracy:</strong> {{ metrics.accuracy|round(4) }}</li>
+                                            <li><strong>Precision:</strong> {{ metrics.precision|round(4) }}</li>
+                                            <li><strong>Recall:</strong> {{ metrics.recall|round(4) }}</li>
+                                            <li><strong>F1 Score:</strong> {{ metrics.f1|round(4) }}</li>
+                                        </ul>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card border-info mb-3">
+                                <div class="card-header bg-info text-white">Model Information</div>
+                                <div class="card-body">
+                                    <p class="card-text">
+                                        <ul>
+                                            <li><strong>Algorithm:</strong> {{ metrics.model_type }}</li>
+                                            <li><strong>Training Data Size:</strong> {{ metrics.training_size }} (synthetic records)</li>
+                                            <li><strong>Features:</strong> {{ metrics.feature_count }}</li>
+                                            <li><strong>Last Updated:</strong> {{ metrics.last_updated }}</li>
+                                        </ul>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card shadow mb-4">
+                <div class="card-header bg-primary text-white">
+                    <h2 class="h5 mb-0">ROC Curve</h2>
+                </div>
+                <div class="card-body text-center">
+                    {% if roc_curve_exists %}
+                        <img src="{{ url_for('static', filename='images/roc_curves.png') }}" alt="ROC Curve" class="img-fluid" style="max-width: 90%;">
+                    {% else %}
+                        <div class="alert alert-info">
+                            ROC curve visualization is not available.
+                        </div>
+                    {% endif %}
+                    <p class="mt-3">
+                        The ROC (Receiver Operating Characteristic) curve illustrates the performance of the classification model. The curve shows the True Positive Rate vs. False Positive Rate at various threshold settings. The Area Under the Curve (AUC) of {{ metrics.roc_auc|round(4) }} indicates the model's ability to distinguish between classes.
+                    </p>
+                </div>
+            </div>
+
+            <div class="card shadow mb-4">
+                <div class="card-header bg-primary text-white">
+                    <h2 class="h5 mb-0">Feature Importance</h2>
+                </div>
+                <div class="card-body text-center">
+                    {% if shap_exists %}
+                        <img src="{{ url_for('static', filename='images/feature_importance.png') }}" alt="Feature Importance" class="img-fluid" style="max-width: 90%;">
+                    {% else %}
+                        <div class="alert alert-info">
+                            SHAP values visualization is not available.
+                        </div>
+                    {% endif %}
+                    <p class="mt-3">
+                        This visualization shows the top features influencing the credit risk prediction in our demonstration model. Features are ranked by their importance in the model. Understanding these features helps explain the key factors in determining credit risk.
+                    </p>
+                    <div class="row mt-4">
+                        <div class="col-md-12">
+                            <div class="card border-secondary">
+                                <div class="card-header bg-secondary text-white">Top Features</div>
+                                <div class="card-body">
+                                    <p class="card-text">
+                                        <ol>
+                                            <li><strong>Credit Score:</strong> A higher credit score significantly reduces the risk of default.</li>
+                                            <li><strong>Debt-to-Income Ratio:</strong> Higher ratios increase default risk.</li>
+                                            <li><strong>Previous Defaults:</strong> Past default history strongly predicts future defaults.</li>
+                                            <li><strong>Income:</strong> Higher income generally correlates with lower default risk.</li>
+                                            <li><strong>Payment-to-Income Ratio:</strong> The proportion of monthly income required for loan payment.</li>
+                                        </ol>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card shadow mb-4">
+                <div class="card-header bg-primary text-white">
+                    <h2 class="h5 mb-0">Model Details</h2>
+                </div>
+                <div class="card-body">
+                    <h5>Features Demonstrated</h5>
+                    <p>Our demonstration model incorporates features that are typically relevant in credit risk assessment:</p>
+                    <ul>
+                        <li><strong>Payment-to-Income Ratio:</strong> Monthly loan payment as a percentage of monthly income</li>
+                        <li><strong>Credit Utilization:</strong> For credit card holders, the percentage of available credit being used</li>
+                        <li><strong>Months at Residence:</strong> Stability indicator measuring time at current residence</li>
+                    </ul>
+
+                    <h5 class="mt-4">Algorithms Demonstrated</h5>
+                    <p>The demonstration model uses an ensemble approach, combining multiple algorithms:</p>
+                    <ul>
+                        <li><strong>Gradient Boosting:</strong> For handling complex non-linear relationships</li>
+                        <li><strong>Random Forest:</strong> For robustness and feature importance analysis</li>
+                        <li><strong>XGBoost:</strong> For optimized gradient boosting implementation</li>
+                    </ul>
+
+                    <h5 class="mt-4">Educational Example: Class Imbalance Handling</h5>
+                    <p>Credit default is an imbalanced classification problem. This project demonstrates techniques such as:</p>
+                    <ul>
+                        <li><strong>SMOTE:</strong> Synthetic Minority Over-sampling Technique to balance training data</li>
+                        <li><strong>Class Weights:</strong> Adjusting algorithm sensitivity to minority class</li>
+                    </ul>
+                    
+                    <div class="alert alert-warning mt-4">
+                        <i class="fas fa-exclamation-triangle"></i> <strong>Educational Purpose:</strong> This model is for demonstration purposes only and should not be used for actual financial decisions. It was created as part of Capstone Project 244.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 

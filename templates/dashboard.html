@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard | CreditShield</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">
+                <i class="fas fa-shield-alt"></i>
+                <h1>CreditShield</h1>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="{{ url_for('home') }}"><i class="fas fa-home"></i> Home</a></li>
+                    <li><a href="{{ url_for('dashboard') }}" class="active"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+                    <li><a href="{{ url_for('model_performance') }}"><i class="fas fa-chart-line"></i> Model Performance</a></li>
+                    <li><a href="{{ url_for('what_if') }}"><i class="fas fa-sliders-h"></i> What-If Analysis</a></li>
+                    <li><a href="{{ url_for('about') }}"><i class="fas fa-info-circle"></i> About</a></li>
+                </ul>
+            </nav>
+        </header>
+        
+        <main>
+            <div class="form-header">
+                <h2>Credit Risk Dashboard</h2>
+            </div>
+            
+            <div class="dashboard-stats">
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3>Total Assessments</h3>
+                        <div class="stat-value">{{ metrics.total_assessments }}</div>
+                        <div class="stat-trend positive">
+                            <i class="fas fa-arrow-up"></i> 12% from last month
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3>Low Risk Loans</h3>
+                        <div class="stat-value">{{ metrics.low_risk_percent }}%</div>
+                        <div class="stat-trend positive">
+                            <i class="fas fa-arrow-up"></i> 5% from last month
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-exclamation-triangle"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3>High Risk Loans</h3>
+                        <div class="stat-value">{{ metrics.high_risk_percent }}%</div>
+                        <div class="stat-trend negative">
+                            <i class="fas fa-arrow-down"></i> 3% from last month
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-dollar-sign"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3>Avg. Loan Amount</h3>
+                        <div class="stat-value">${{ metrics.avg_loan_amount }}</div>
+                        <div class="stat-trend positive">
+                            <i class="fas fa-arrow-up"></i> 2% from last month
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="dashboard-charts">
+                <div class="chart-card">
+                    <h3>Risk Grade Distribution</h3>
+                    <div class="chart-container">
+                        <canvas id="riskDistributionChart"></canvas>
+                    </div>
+                </div>
+                
+                <div class="chart-card">
+                    <h3>Monthly Assessment Trend</h3>
+                    <div class="chart-container">
+                        <canvas id="monthlyTrendChart"></canvas>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="recent-assessments">
+                <h2>Recent Assessments</h2>
+                <div class="table-responsive">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Date</th>
+                                <th>Loan Amount</th>
+                                <th>Term</th>
+                                <th>Risk Grade</th>
+                                <th>Risk Score</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for assessment in recent_assessments %}
+                            <tr>
+                                <td>{{ assessment.id }}</td>
+                                <td>{{ assessment.date }}</td>
+                                <td>${{ assessment.loan_amount }}</td>
+                                <td>{{ assessment.term }} months</td>
+                                <td>
+                                    <span class="grade-badge grade-{{ assessment.grade.lower() }}">
+                                        {{ assessment.grade }}
+                                    </span>
+                                </td>
+                                <td>{{ assessment.risk_score }}%</td>
+                                <td>
+                                    <span class="status-badge status-{{ assessment.status.lower() }}">
+                                        {{ assessment.status }}
+                                    </span>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
+        
+        <footer>
+            <p>&copy; {{ now().year }} CreditShield. All rights reserved.</p>
+        </footer>
+    </div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Risk Distribution Chart
+            const riskDistCtx = document.getElementById('riskDistributionChart').getContext('2d');
+            const riskDistChart = new Chart(riskDistCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Grade A', 'Grade B', 'Grade C', 'Grade D', 'Grade E', 'Grade F', 'Grade G'],
+                    datasets: [{
+                        data: [25, 30, 20, 15, 5, 3, 2],
+                        backgroundColor: [
+                            '#4caf50', // A - Green
+                            '#8bc34a', // B - Light Green
+                            '#cddc39', // C - Lime
+                            '#ffeb3b', // D - Yellow
+                            '#ffc107', // E - Amber
+                            '#ff9800', // F - Orange
+                            '#f44336'  // G - Red
+                        ],
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'right'
+                        }
+                    }
+                }
+            });
+            
+            // Monthly Trend Chart
+            const trendCtx = document.getElementById('monthlyTrendChart').getContext('2d');
+            const trendChart = new Chart(trendCtx, {
+                type: 'line',
+                data: {
+                    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+                    datasets: [{
+                        label: 'Low Risk (A-C)',
+                        data: [120, 150, 180, 170, 160, 190],
+                        borderColor: '#4caf50',
+                        backgroundColor: 'rgba(76, 175, 80, 0.1)',
+                        borderWidth: 2,
+                        fill: true
+                    }, {
+                        label: 'Medium Risk (D-E)',
+                        data: [60, 55, 65, 80, 90, 70],
+                        borderColor: '#ffc107',
+                        backgroundColor: 'rgba(255, 193, 7, 0.1)',
+                        borderWidth: 2,
+                        fill: true
+                    }, {
+                        label: 'High Risk (F-G)',
+                        data: [20, 25, 15, 20, 30, 25],
+                        borderColor: '#f44336',
+                        backgroundColor: 'rgba(244, 67, 54, 0.1)',
+                        borderWidth: 2,
+                        fill: true
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'top'
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            title: {
+                                display: true,
+                                text: 'Number of Assessments'
+                            }
+                        },
+                        x: {
+                            title: {
+                                display: true,
+                                text: 'Month (2023)'
+                            }
+                        }
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html> 

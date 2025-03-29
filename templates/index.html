@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CreditShield - Credit Risk Assessment</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">
+                <i class="fas fa-shield-alt"></i>
+                <h1>CreditShield</h1>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="{{ url_for('home') }}" class="active"><i class="fas fa-home"></i> Home</a></li>
+                    <li><a href="{{ url_for('dashboard') }}"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+                    <li><a href="{{ url_for('model_performance') }}"><i class="fas fa-chart-line"></i> Model Performance</a></li>
+                    <li><a href="{{ url_for('what_if') }}"><i class="fas fa-sliders-h"></i> What-If Analysis</a></li>
+                    <li><a href="{{ url_for('about') }}"><i class="fas fa-info-circle"></i> About</a></li>
+                </ul>
+            </nav>
+        </header>
+        
+        <main>
+            <div class="form-header">
+                <h2>Please fill out the form below to assess the credit risk grade (A-G)</h2>
+            </div>
+            
+            <div class="info-box">
+                <span class="note-label">Note:</span> This tool predicts credit risk using a model trained on a 10,000 row dataset.
+            </div>
+            
+            <div class="form-container">
+                <div class="tabs">
+                    <button class="tab-btn active" data-tab="loan">Loan Information</button>
+                    <button class="tab-btn" data-tab="borrower">Borrower Information</button>
+                    <button class="tab-btn" data-tab="credit">Credit Information</button>
+                    <button class="tab-btn" data-tab="model">Model Selection</button>
+                </div>
+                
+                <div class="tab-content">
+                    <!-- Loan Information Tab -->
+                    <div class="tab-pane active" id="loan-tab">
+                        <h2 class="section-title">Loan Information</h2>
+                        <form id="loan-form">
+                            <div class="form-grid">
+                                <div class="form-group">
+                                    <label for="loan-amount">Loan Amount ($)</label>
+                                    <input type="number" id="loan-amount" name="loan-amount" value="10000" class="form-control">
+                                    <span class="validation-icon"><i class="fas fa-check"></i></span>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="loan-term">Term (months)</label>
+                                    <div class="select-wrapper">
+                                        <select id="loan-term" name="loan-term" class="form-control">
+                                            <option value="12">12 months</option>
+                                            <option value="24">24 months</option>
+                                            <option value="36" selected>36 months</option>
+                                            <option value="48">48 months</option>
+                                            <option value="60">60 months</option>
+                                        </select>
+                                        <span class="validation-icon"><i class="fas fa-check"></i></span>
+                                        <i class="fas fa-chevron-down select-arrow"></i>
+                                    </div>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="interest-rate">Interest Rate (%)</label>
+                                    <input type="number" id="interest-rate" name="interest-rate" value="10.0" step="0.1" class="form-control">
+                                    <span class="validation-icon"><i class="fas fa-check"></i></span>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="monthly-payment">Monthly Payment ($)</label>
+                                    <input type="number" id="monthly-payment" name="monthly-payment" value="325.0" step="0.01" class="form-control">
+                                    <span class="validation-icon"><i class="fas fa-check"></i></span>
+                                </div>
+                            </div>
+                            
+                            <div class="form-navigation">
+                                <button type="button" id="next-to-borrower" class="btn btn-primary">Next: Borrower Information</button>
+                            </div>
+                        </form>
+                    </div>
+                    
+                    <!-- Borrower Information Tab -->
+                    <div class="tab-pane" id="borrower-tab">
+                        <h2 class="section-title">Borrower Information</h2>
+                        <form id="borrower-form">
+                            <div class="form-grid">
+                                <div class="form-group">
+                                    <label for="annual-income">Annual Income ($)</label>
+                                    <input type="number" id="annual-income" name="annual-income" value="60000" class="form-control">
+                                    <span class="validation-icon"><i class="fas fa-check"></i></span>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="employment-length">Employment Length (years)</label>
+                                    <div class="select-wrapper">
+                                        <select id="employment-length" name="employment-length" class="form-control">
+                                            <option value="1">1 year</option>
+                                            <option value="2">2 years</option>
+                                            <option value="3">3 years</option>
+                                            <option value="4">4 years</option>
+                                            <option value="5" selected>5 years</option>
+                                            <option value="10">10 years</option>
+                                            <option value="15">15+ years</option>
+                                        </select>
+                                        <span class="validation-icon"><i class="fas fa-check"></i></span>
+                                        <i class="fas fa-chevron-down select-arrow"></i>
+                                    </div>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="home-ownership">Home Ownership</label>
+                                    <div class="select-wrapper">
+                                        <select id="home-ownership" name="home-ownership" class="form-control">
+                                            <option value="rent" selected>Rent</option>
+                                            <option value="own">Own</option>
+                                            <option value="mortgage">Mortgage</option>
+                                            <option value="other">Other</option>
+                                        </select>
+                                        <span class="validation-icon"><i class="fas fa-check"></i></span>
+                                        <i class="fas fa-chevron-down select-arrow"></i>
+                                    </div>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="loan-purpose">Loan Purpose</label>
+                                    <div class="select-wrapper">
+                                        <select id="loan-purpose" name="loan-purpose" class="form-control">
+                                            <option value="debt-consolidation" selected>Debt Consolidation</option>
+                                            <option value="credit-card">Credit Card</option>
+                                            <option value="home-improvement">Home Improvement</option>
+                                            <option value="major-purchase">Major Purchase</option>
+                                            <option value="medical">Medical</option>
+                                            <option value="other">Other</option>
+                                        </select>
+                                        <span class="validation-icon"><i class="fas fa-check"></i></span>
+                                        <i class="fas fa-chevron-down select-arrow"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="form-navigation">
+                                <button type="button" id="prev-to-loan" class="btn btn-secondary">Previous</button>
+                                <button type="button" id="next-to-credit" class="btn btn-primary">Next: Credit Information</button>
+                            </div>
+                        </form>
+                    </div>
+                    
+                    <!-- Credit Information Tab -->
+                    <div class="tab-pane" id="credit-tab">
+                        <h2 class="section-title">Credit Information</h2>
+                        <form id="credit-form">
+                            <div class="form-grid">
+                                <div class="form-group">
+                                    <label for="debt-to-income">Debt-to-Income Ratio</label>
+                                    <input type="number" id="debt-to-income" name="debt-to-income" value="15.0" step="0.1" class="form-control">
+                                    <span class="validation-icon"><i class="fas fa-check"></i></span>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="fico-low">FICO Score (Low Range)</label>
+                                    <input type="number" id="fico-low" name="fico-low" value="700" min="300" max="850" class="form-control">
+                                    <span class="validation-icon"><i class="fas fa-check"></i></span>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="fico-high">FICO Score (High Range)</label>
+                                    <input type="number" id="fico-high" name="fico-high" value="720" min="300" max="850" class="form-control">
+                                    <span class="validation-icon"><i class="fas fa-check"></i></span>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="delinquencies">Delinquencies (Past 2 Years)</label>
+                                    <input type="number" id="delinquencies" name="delinquencies" value="0" min="0" class="form-control">
+                                    <span class="validation-icon"><i class="fas fa-check"></i></span>
+                                </div>
+                            </div>
+                            
+                            <div class="form-navigation">
+                                <button type="button" id="prev-to-borrower" class="btn btn-secondary">Previous</button>
+                                <button type="button" id="next-to-model" class="btn btn-primary">Next: Model Selection</button>
+                            </div>
+                        </form>
+                    </div>
+                    
+                    <!-- Model Selection Tab -->
+                    <div class="tab-pane" id="model-tab">
+                        <h2 class="section-title">Model Selection</h2>
+                        <form id="model-form">
+                            <div class="model-selection">
+                                <div class="model-card selected" data-model="default">
+                                    <div class="model-header">
+                                        <h3>Default Model</h3>
+                                        <span class="model-badge">Recommended</span>
+                                    </div>
+                                    <div class="model-details">
+                                        <p>Random Forest Model trained on 10,000 records</p>
+                                        <ul>
+                                            <li>Accuracy: 92%</li>
+                                            <li>AUC: 0.89</li>
+                                            <li>F1 Score: 0.87</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                
+                                <div class="model-card" data-model="alternative">
+                                    <div class="model-header">
+                                        <h3>Alternative Model</h3>
+                                        <span class="model-badge">Beta</span>
+                                    </div>
+                                    <div class="model-details">
+                                        <p>XGBoost Model with additional features</p>
+                                        <ul>
+                                            <li>Accuracy: 94%</li>
+                                            <li>AUC: 0.91</li>
+                                            <li>F1 Score: 0.89</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="form-navigation">
+                                <button type="button" id="prev-to-credit" class="btn btn-secondary">Previous</button>
+                                <button type="button" id="submit-assessment" class="btn btn-success">Calculate Credit Risk</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="results" class="results-container hidden">
+                <h2 class="section-title">Credit Risk Assessment Results</h2>
+                <div class="results-content">
+                    <div class="risk-grade">
+                        <div class="grade-circle">
+                            <span class="grade">B</span>
+                        </div>
+                        <h3>Good Credit Risk</h3>
+                    </div>
+                    
+                    <div class="risk-details">
+                        <div class="risk-score">
+                            <h4>Risk Score</h4>
+                            <div class="progress-container">
+                                <div class="progress-bar" style="width: 35%;"></div>
+                            </div>
+                            <span class="score-value">35%</span>
+                        </div>
+                        
+                        <div class="risk-factors">
+                            <h4>Key Risk Factors</h4>
+                            <ul>
+                                <li><i class="fas fa-exclamation-triangle"></i> Debt-to-income ratio is relatively high</li>
+                                <li><i class="fas fa-exclamation-triangle"></i> Short employment history</li>
+                                <li><i class="fas fa-check-circle"></i> Strong credit score</li>
+                                <li><i class="fas fa-check-circle"></i> No delinquencies in past 2 years</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="action-buttons">
+                        <button id="back-to-form" class="btn btn-secondary">Edit Information</button>
+                        <button id="print-report" class="btn btn-primary"><i class="fas fa-print"></i> Print Report</button>
+                    </div>
+                </div>
+            </div>
+        </main>
+        
+        <footer>
+            <p>&copy; {{ now().year }} CreditShield. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html> 
