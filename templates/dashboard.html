@@ -76,10 +76,10 @@
                         <i class="fas fa-dollar-sign"></i>
                     </div>
                     <div class="stat-content">
-                        <h3>Avg. Loan Amount</h3>
-                        <div class="stat-value">${{ metrics.avg_loan_amount }}</div>
+                        <h3>Average Loan Amount</h3>
+                        <div class="stat-value">₹{{ metrics.avg_loan_amount }}</div>
                         <div class="stat-trend positive">
-                            <i class="fas fa-arrow-up"></i> 2% from last month
+                            <i class="fas fa-arrow-up"></i> 3% from last month
                         </div>
                     </div>
                 </div>
@@ -121,7 +121,7 @@
                             <tr>
                                 <td>{{ assessment.id }}</td>
                                 <td>{{ assessment.date }}</td>
-                                <td>${{ assessment.loan_amount }}</td>
+                                <td>₹{{ assessment.loan_amount }}</td>
                                 <td>{{ assessment.term }} months</td>
                                 <td>
                                     <span class="grade-badge grade-{{ assessment.grade.lower() }}">
