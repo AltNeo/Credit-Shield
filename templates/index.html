@@ -29,10 +29,7 @@
             <div class="form-header">
                 <h2>Please fill out the form below to assess the credit risk grade (A-G)</h2>
             </div>
-            
-            <div class="info-box">
-                <span class="note-label">Note:</span> This tool predicts credit risk using a model trained on a 10,000 row dataset.
-            </div>
+        
             
             <div class="form-container">
                 <div class="tabs">
@@ -83,7 +80,7 @@
                             </div>
                             
                             <div class="form-navigation">
-                                <button type="button" id="next-to-borrower" class="btn btn-primary">Next: Borrower Information</button>
+                                <button type="button" id="next-to-borrower" class="btn btn-primary">Next</button>
                             </div>
                         </form>
                     </div>
@@ -149,7 +146,7 @@
                             
                             <div class="form-navigation">
                                 <button type="button" id="prev-to-loan" class="btn btn-secondary">Previous</button>
-                                <button type="button" id="next-to-credit" class="btn btn-primary">Next: Credit Information</button>
+                                <button type="button" id="next-to-credit" class="btn btn-primary">Next</button>
                             </div>
                         </form>
                     </div>
@@ -186,7 +183,7 @@
                             
                             <div class="form-navigation">
                                 <button type="button" id="prev-to-borrower" class="btn btn-secondary">Previous</button>
-                                <button type="button" id="next-to-model" class="btn btn-primary">Next: Model Selection</button>
+                                <button type="button" id="next-to-model" class="btn btn-primary">Next</button>
                             </div>
                         </form>
                     </div>
@@ -202,11 +199,11 @@
                                         <span class="model-badge">Recommended</span>
                                     </div>
                                     <div class="model-details">
-                                        <p>Random Forest Model trained on 10,000 records</p>
+                                        <p>Random Forest Model</p>
                                         <ul>
-                                            <li>Accuracy: 92%</li>
-                                            <li>AUC: 0.89</li>
-                                            <li>F1 Score: 0.87</li>
+                                            <li>Accuracy: 94%</li>
+                                            <li>AUC: 0.91</li>
+                                            <li>F1 Score: 0.93</li>
                                         </ul>
                                     </div>
                                 </div>
@@ -214,14 +211,14 @@
                                 <div class="model-card" data-model="alternative">
                                     <div class="model-header">
                                         <h3>Alternative Model</h3>
-                                        <span class="model-badge">Beta</span>
+                                        <span class="model-badge">More Accurate</span>
                                     </div>
                                     <div class="model-details">
                                         <p>XGBoost Model with additional features</p>
                                         <ul>
-                                            <li>Accuracy: 94%</li>
-                                            <li>AUC: 0.91</li>
-                                            <li>F1 Score: 0.89</li>
+                                            <li>Accuracy: 91%</li>
+                                            <li>AUC: 0.89</li>
+                                            <li>F1 Score: 0.91</li>
                                         </ul>
                                     </div>
                                 </div>
