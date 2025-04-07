@@ -5,8 +5,8 @@
 
 /* Variables */
 :root {
-    --primary-color: #0047AB;
-    --primary-dark: #003380;
+    --primary-color: #011738;
+    --primary-dark: #011738;
     --primary-light: #bbdefb;
     --secondary-color: #f5f5f5;
     --text-color: #333;
@@ -130,7 +130,7 @@ nav a i {
 
 /* Form Header Styles */
 .form-header {
-    background-color: #0047AB;
+    background-color: #011738;
     color: white;
     padding: 20px;
     margin-bottom: 20px;
@@ -151,7 +151,7 @@ nav a i {
     border-radius: 5px;
     padding: 15px;
     margin-bottom: 25px;
-    border-left: 4px solid #0047AB;
+    border-left: 4px solid #011738;
     font-size: 14px;
 }
 
@@ -416,15 +416,24 @@ nav a i {
     justify-content: center;
 }
 
-.grade-circle {
-    width: 120px;
-    height: 120px;
-    border-radius: 50%;
-    background-color: #4caf50;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-bottom: 15px;
+.grade-circle, .risk-grade-indicator {
+    display: inline-block;
+    font-size: 60px; /* Make it large and readable */
+    font-weight: bold;
+    color: #000; /* Black text */
+    margin: 10px 0;
+    text-align: center;
+    background: none; /* Remove any background */
+    border: none; /* Remove any border */
+    width: auto; /* Let it size naturally */
+    height: auto;
+}
+
+.grade-circle span {
+    position: relative;
+    line-height: 1;
+    padding: 0;
+    margin: 0;
 }
 
 .grade {
@@ -551,9 +560,9 @@ nav a i {
 }
 
 .grade-circle {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    border-radius: 0%;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -1372,4 +1381,10 @@ footer {
 .form-control.invalid:focus {
     box-shadow: 0 0 0 2px rgba(244, 67, 54, 0.2);
     outline: none;
+}
+
+/* Update the parent container if necessary */
+.risk-grade-container {
+    text-align: center;
+    margin: 15px 0;
 } 

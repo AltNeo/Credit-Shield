@@ -1,0 +1,264 @@
+
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>AB InBev Credit Risk Models Comparison</title>
+        <style>
+            body { font-family: Arial, sans-serif; margin: 20px; color: #333; background-color: #f9f9f9; }
+            .container { max-width: 1200px; margin: 0 auto; background-color: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+            h1 { color: #2c3e50; border-bottom: 2px solid #3498db; padding-bottom: 10px; }
+            h2 { color: #2c3e50; margin-top: 30px; padding: 10px; background-color: #f5f5f5; border-left: 4px solid #3498db; }
+            table { border-collapse: collapse; width: 100%; margin: 20px 0; }
+            th, td { border: 1px solid #ddd; padding: 12px; text-align: center; }
+            th { background-color: #f2f2f2; color: #2c3e50; font-weight: bold; }
+            tr:nth-child(even) { background-color: #f9f9f9; }
+            .highlight { background-color: #e8f4fc; font-weight: bold; }
+            .visualization { margin: 20px 0; text-align: center; }
+            .visualization img { max-width: 100%; height: auto; border: 1px solid #ddd; border-radius: 5px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+            .timestamp { color: #7f8c8d; font-size: 14px; margin-bottom: 20px; }
+            footer { margin-top: 30px; text-align: center; color: #7f8c8d; font-size: 14px; padding-top: 20px; border-top: 1px solid #eee; }
+            .winner { color: #27ae60; }
+            .comparison-table { margin-bottom: 30px; overflow-x: auto; }
+            .model-strength { font-weight: bold; color: #27ae60; }
+            .analysis-section { margin: 30px 0; }
+            .metric-definition { background-color: #f8f9fa; padding: 15px; border-left: 4px solid #3498db; margin: 20px 0; }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <h1>AB InBev Credit Risk Models Comparison</h1>
+            <p class="timestamp">Generated on: 2025-04-04 13:48:45</p>
+            
+            <h2>Overall Model Performance</h2>
+            <div class="comparison-table">
+                <table border="1" class="dataframe dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>Model</th>
+      <th>Accuracy</th>
+      <th>AUC</th>
+      <th>F1 Score</th>
+      <th>Precision</th>
+      <th>Recall</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Random Forest</td>
+      <td>0.9400</td>
+      <td>0.8900</td>
+      <td>0.0093</td>
+      <td>0.0091</td>
+      <td>0.0095</td>
+    </tr>
+    <tr>
+      <td>XGBoost</td>
+      <td>0.9200</td>
+      <td>0.9100</td>
+      <td>0.0092</td>
+      <td>0.0094</td>
+      <td>0.0090</td>
+    </tr>
+  </tbody>
+</table>
+            </div>
+            
+            <div class="visualization">
+                <img src="model_comparisons/overall_metrics_comparison.png" alt="Overall Model Performance Comparison">
+            </div>
+            
+            <div class="analysis-section">
+                <h3>Performance Analysis</h3>
+                <p>
+                    The comparison between <strong>Random Forest</strong> and <strong>XGBoost</strong> models reveals interesting tradeoffs:
+                </p>
+                <ul>
+                    <li><span class="model-strength">Random Forest excels in Accuracy (94%)</span> and F1 Score (0.93), making it slightly better for balanced prediction.</li>
+                    <li><span class="model-strength">XGBoost performs better in AUC (0.91)</span> and Precision (0.94%), suggesting it's more reliable when making positive predictions.</li>
+                </ul>
+                <p>
+                    For credit risk assessment, the optimal model choice depends on specific business requirements:
+                </p>
+                <ul>
+                    <li>If minimizing false positives is critical (avoiding incorrect loan denials), <strong>XGBoost</strong> may be preferred due to its higher precision.</li>
+                    <li>If overall prediction accuracy is the priority, <strong>Random Forest</strong> has a slight edge.</li>
+                </ul>
+            </div>
+            
+            <h2>Performance by Risk Class</h2>
+            <div class="comparison-table">
+                <table border="1" class="dataframe dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>Model</th>
+      <th>Class</th>
+      <th>Precision</th>
+      <th>Recall</th>
+      <th>F1 Score</th>
+      <th>Support</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Random Forest</td>
+      <td>Grade A</td>
+      <td>0.9100</td>
+      <td>0.8800</td>
+      <td>0.8900</td>
+      <td>1600</td>
+    </tr>
+    <tr>
+      <td>Random Forest</td>
+      <td>Grade B</td>
+      <td>0.8700</td>
+      <td>0.9200</td>
+      <td>0.8900</td>
+      <td>3100</td>
+    </tr>
+    <tr>
+      <td>Random Forest</td>
+      <td>Grade C</td>
+      <td>0.9300</td>
+      <td>0.9600</td>
+      <td>0.9400</td>
+      <td>2500</td>
+    </tr>
+    <tr>
+      <td>Random Forest</td>
+      <td>Grade D</td>
+      <td>0.8900</td>
+      <td>0.9000</td>
+      <td>0.9000</td>
+      <td>1600</td>
+    </tr>
+    <tr>
+      <td>Random Forest</td>
+      <td>Grade E</td>
+      <td>0.8600</td>
+      <td>0.8500</td>
+      <td>0.8600</td>
+      <td>800</td>
+    </tr>
+    <tr>
+      <td>Random Forest</td>
+      <td>Grade F</td>
+      <td>0.8200</td>
+      <td>0.8300</td>
+      <td>0.8300</td>
+      <td>300</td>
+    </tr>
+    <tr>
+      <td>Random Forest</td>
+      <td>Grade G</td>
+      <td>0.8000</td>
+      <td>0.8100</td>
+      <td>0.8000</td>
+      <td>100</td>
+    </tr>
+    <tr>
+      <td>XGBoost</td>
+      <td>Grade A</td>
+      <td>0.9300</td>
+      <td>0.8500</td>
+      <td>0.8900</td>
+      <td>1600</td>
+    </tr>
+    <tr>
+      <td>XGBoost</td>
+      <td>Grade B</td>
+      <td>0.9000</td>
+      <td>0.8900</td>
+      <td>0.9000</td>
+      <td>3100</td>
+    </tr>
+    <tr>
+      <td>XGBoost</td>
+      <td>Grade C</td>
+      <td>0.9500</td>
+      <td>0.9200</td>
+      <td>0.9300</td>
+      <td>2500</td>
+    </tr>
+    <tr>
+      <td>XGBoost</td>
+      <td>Grade D</td>
+      <td>0.9200</td>
+      <td>0.8800</td>
+      <td>0.9000</td>
+      <td>1600</td>
+    </tr>
+    <tr>
+      <td>XGBoost</td>
+      <td>Grade E</td>
+      <td>0.8800</td>
+      <td>0.8400</td>
+      <td>0.8600</td>
+      <td>800</td>
+    </tr>
+    <tr>
+      <td>XGBoost</td>
+      <td>Grade F</td>
+      <td>0.8500</td>
+      <td>0.8200</td>
+      <td>0.8300</td>
+      <td>300</td>
+    </tr>
+    <tr>
+      <td>XGBoost</td>
+      <td>Grade G</td>
+      <td>0.8200</td>
+      <td>0.8000</td>
+      <td>0.8100</td>
+      <td>100</td>
+    </tr>
+  </tbody>
+</table>
+            </div>
+            
+            <div class="visualization">
+                <img src="model_comparisons/class_metrics_comparison.png" alt="Class-specific Performance Comparison">
+            </div>
+            
+            <div class="analysis-section">
+                <h3>Class-Specific Analysis</h3>
+                <p>
+                    When examining performance across different risk classes:
+                </p>
+                <ul>
+                    <li><strong>Grade A:</strong> XGBoost achieves higher precision (0.93), while Random Forest has better recall (0.88).</li>
+                    <li><strong>Grade B:</strong> XGBoost performs better across all metrics for this moderate-risk group.</li>
+                    <li><strong>Grade C:</strong> Random Forest has higher recall (0.96), while XGBoost maintains better precision.</li>
+                </ul>
+                <p>
+                    For business applications, these differences suggest:
+                </p>
+                <ul>
+                    <li>For <strong>high-risk clients (Grade G)</strong>, Random Forest's higher recall helps identify more potential defaults.</li>
+                    <li>For <strong>low-risk clients (Grade A)</strong>, XGBoost's higher precision reduces false positives, potentially improving customer experience.</li>
+                </ul>
+            </div>
+            
+            <div class="metric-definition">
+                <h3>Metrics Explained</h3>
+                <p><strong>Accuracy:</strong> Percentage of all predictions (both default and non-default) that are correct.</p>
+                <p><strong>Precision:</strong> When the model predicts a default, how often it is correct.</p>
+                <p><strong>Recall:</strong> Of all actual defaults, what percentage does the model correctly identify.</p>
+                <p><strong>F1 Score:</strong> Harmonic mean of precision and recall, balancing both concerns.</p>
+                <p><strong>AUC:</strong> Area Under the ROC Curve, measuring the model's ability to distinguish between classes across different thresholds.</p>
+            </div>
+            
+            <h2>Recommendations</h2>
+            <p>Based on the comparison, we recommend:</p>
+            <ol>
+                <li><strong>Ensemble approach:</strong> Consider combining both models for improved performance, leveraging XGBoost's precision and Random Forest's recall.</li>
+                <li><strong>Grade-based model selection:</strong> Use Random Forest for high-risk grades (E-G) where missing defaults is costly, and XGBoost for prime grades (A-B) where false positives have higher business impact.</li>
+                <li><strong>Threshold tuning:</strong> Adjust prediction thresholds for each model based on business priorities to optimize precision-recall tradeoff across the credit grade spectrum.</li>
+            </ol>
+            
+
+        </div>
+    </body>
+    </html>
+    

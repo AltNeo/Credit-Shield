@@ -1,0 +1,187 @@
+
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>AB InBev Credit Risk Model - Confusion Matrix Analysis</title>
+        <style>
+            body { font-family: Arial, sans-serif; margin: 20px; color: #333; background-color: #f9f9f9; }
+            .container { max-width: 1200px; margin: 0 auto; background-color: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+            h1 { color: #2c3e50; border-bottom: 2px solid #3498db; padding-bottom: 10px; }
+            h2 { color: #2c3e50; margin-top: 30px; padding: 10px; background-color: #f5f5f5; border-left: 4px solid #3498db; }
+            h3 { color: #2c3e50; margin-top: 25px; }
+            table { border-collapse: collapse; width: 100%; margin: 20px 0; }
+            th, td { border: 1px solid #ddd; padding: 12px; text-align: center; }
+            th { background-color: #f2f2f2; color: #2c3e50; font-weight: bold; }
+            tr:nth-child(even) { background-color: #f9f9f9; }
+            .visualization { margin: 30px 0; text-align: center; }
+            .visualization img { max-width: 100%; height: auto; border: 1px solid #ddd; border-radius: 5px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+            .timestamp { color: #7f8c8d; font-size: 14px; margin-bottom: 20px; }
+            footer { margin-top: 30px; text-align: center; color: #7f8c8d; font-size: 14px; padding-top: 20px; border-top: 1px solid #eee; }
+            .metric-explanation { background-color: #f8f9fa; padding: 15px; border-left: 4px solid #3498db; margin: 20px 0; }
+            .cost-analysis { background-color: #eafaf1; padding: 15px; border-radius: 5px; margin: 25px 0; }
+            .model-comparison { display: flex; justify-content: space-between; margin: 20px 0; }
+            .model-card { flex: 1; margin: 0 10px; padding: 15px; border-radius: 5px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+            .rf-card { background-color: #e6f3ff; }
+            .xgb-card { background-color: #e6fff0; }
+            .error-highlight { color: #e74c3c; font-weight: bold; }
+            .success-highlight { color: #2ecc71; font-weight: bold; }
+            .recommendation { background-color: #fff9e6; padding: 15px; border-left: 4px solid #f39c12; margin: 25px 0; }
+            .cm-explanation { display: flex; margin: 20px 0; }
+            .cm-block { flex: 1; padding: 10px; margin: 5px; border-radius: 5px; }
+            .tp { background-color: #d5f5e3; }
+            .tn { background-color: #d6eaf8; }
+            .fp { background-color: #fadbd8; }
+            .fn { background-color: #fdebd0; }
+            .nav-links { display: flex; justify-content: space-between; margin: 20px 0; }
+            .nav-button { padding: 10px 20px; background-color: #3498db; color: white; text-decoration: none; border-radius: 5px; }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <h1>AB InBev Credit Risk Model - Confusion Matrix Analysis</h1>
+            <p class="timestamp">Generated on: 2025-03-31 05:04:02</p>
+            
+            <div class="nav-links">
+                <a href="multi_model_comparison.html" class="nav-button">← Back to Model Comparison</a>
+            </div>
+            
+            <h2>Confusion Matrices</h2>
+            <p>
+                The confusion matrix is a fundamental tool for evaluating classification models, showing how many predictions were correct and the types of errors made. Below are the confusion matrices for both models, assuming a test dataset of 1,000 cases with a 20% default rate:
+            </p>
+            
+            <div class="visualization">
+                <img src="model_comparisons/confusion_matrices.png" alt="Confusion Matrices">
+            </div>
+            
+            <div class="cm-explanation">
+                <div class="cm-block tp">
+                    <h4>True Positives (TP)</h4>
+                    <p>Correctly identified defaults</p>
+                    <p>RF: 190 | XGB: 180</p>
+                </div>
+                <div class="cm-block fp">
+                    <h4>False Positives (FP)</h4>
+                    <p>Incorrectly identified as defaults</p>
+                    <p>RF: 19 | XGB: 11</p>
+                </div>
+                <div class="cm-block fn">
+                    <h4>False Negatives (FN)</h4>
+                    <p>Defaults missed by the model</p>
+                    <p>RF: 10 | XGB: 20</p>
+                </div>
+                <div class="cm-block tn">
+                    <h4>True Negatives (TN)</h4>
+                    <p>Correctly identified non-defaults</p>
+                    <p>RF: 781 | XGB: 789</p>
+                </div>
+            </div>
+            
+            <h2>Error Analysis</h2>
+            
+            <div class="model-comparison">
+                <div class="model-card rf-card">
+                    <h3>Random Forest</h3>
+                    <p><strong>False Positives:</strong> 19</p>
+                    <p><strong>False Negatives:</strong> 10</p>
+                    <p><strong>Precision:</strong> 0.9091</p>
+                    <p><strong>Recall:</strong> 0.9500</p>
+                    <p><strong>FP Rate:</strong> 0.0238</p>
+                    <p><strong>FN Rate:</strong> 0.0500</p>
+                </div>
+                
+                <div class="model-card xgb-card">
+                    <h3>XGBoost</h3>
+                    <p><strong>False Positives:</strong> 11</p>
+                    <p><strong>False Negatives:</strong> 20</p>
+                    <p><strong>Precision:</strong> 0.9424</p>
+                    <p><strong>Recall:</strong> 0.9000</p>
+                    <p><strong>FP Rate:</strong> 0.0138</p>
+                    <p><strong>FN Rate:</strong> 0.1000</p>
+                </div>
+            </div>
+            
+            <h2>Business Impact Analysis</h2>
+            
+            <div class="cost-analysis">
+                <h3>Cost of Errors</h3>
+                <p>
+                    In credit risk assessment, different types of errors carry different costs:
+                </p>
+                <ul>
+                    <li><strong>False Negative Cost:</strong> $10,000 per instance (potential loss from a loan default)</li>
+                    <li><strong>False Positive Cost:</strong> $1,500 per instance (opportunity cost of rejecting a good loan)</li>
+                </ul>
+                
+                <h4>Total Error Cost Comparison:</h4>
+                <ul>
+                    <li><strong>Random Forest:</strong> (10 × $10,000) + (19 × $1,500) = $128,500</li>
+                    <li><strong>XGBoost:</strong> (20 × $10,000) + (11 × $1,500) = $216,500</li>
+                </ul>
+                
+                <p>
+                    <span class="success-highlight">Random Forest has a lower total error cost</span> primarily because it produces fewer false negatives, which are more costly in this scenario.
+                </p>
+            </div>
+            
+            <h2>Threshold Analysis</h2>
+            <p>
+                The classification threshold (cutoff between predicting default vs. non-default) can be adjusted to balance different types of errors. This analysis shows how the total cost of errors would change at different threshold values:
+            </p>
+            
+            <div class="visualization">
+                <img src="model_comparisons/threshold_analysis.png" alt="Threshold Analysis">
+            </div>
+            
+            <p>
+                This analysis shows that:
+            </p>
+            <ul>
+                <li>At lower thresholds, models flag more cases as defaults, increasing false positives but reducing false negatives</li>
+                <li>At higher thresholds, models are more conservative in flagging defaults, reducing false positives but increasing false negatives</li>
+                <li>Each model has an optimal threshold that minimizes the total cost of errors</li>
+                <li>Random Forest generally maintains a lower total cost across most threshold values</li>
+            </ul>
+            
+            <div class="recommendation">
+                <h3>Business Recommendations</h3>
+                <ol>
+                    <li><strong>Primary Model Choice:</strong> Random Forest appears to be more cost-effective for credit risk assessment in scenarios where the cost of missing a default (false negative) is significantly higher than incorrectly flagging a good loan (false positive).</li>
+                    <li><strong>Threshold Optimization:</strong> Fine-tune the classification threshold to approximately 0.3-0.4 to minimize total error costs.</li>
+                    <li><strong>Two-Tier Approach:</strong> Consider implementing a two-tier system:
+                        <ul>
+                            <li>Tier 1: Use Random Forest for initial screening</li>
+                            <li>Tier 2: For borderline cases (probability near threshold), use XGBoost as a secondary check</li>
+                        </ul>
+                    </li>
+                    <li><strong>Cost Sensitivity:</strong> Regularly re-evaluate the relative costs of each error type based on current economic conditions and business priorities.</li>
+                </ol>
+            </div>
+            
+            <div class="metric-explanation">
+                <h3>Understanding Confusion Matrix Terms</h3>
+                <ul>
+                    <li><strong>True Positive (TP):</strong> Customer predicted to default who actually defaulted</li>
+                    <li><strong>False Positive (FP):</strong> Customer predicted to default who actually didn't default (Type I error)</li>
+                    <li><strong>False Negative (FN):</strong> Customer predicted not to default who actually defaulted (Type II error)</li>
+                    <li><strong>True Negative (TN):</strong> Customer predicted not to default who actually didn't default</li>
+                    <li><strong>Precision:</strong> Of all customers predicted to default, what percentage actually defaulted (TP / (TP + FP))</li>
+                    <li><strong>Recall:</strong> Of all customers who actually defaulted, what percentage were correctly predicted (TP / (TP + FN))</li>
+                    <li><strong>False Positive Rate:</strong> Of all customers who didn't default, what percentage were incorrectly predicted as defaults (FP / (FP + TN))</li>
+                    <li><strong>False Negative Rate:</strong> Of all customers who defaulted, what percentage were missed by the model (FN / (FN + TP))</li>
+                </ul>
+            </div>
+            
+            <div class="nav-links">
+                <a href="multi_model_comparison.html" class="nav-button">← Back to Model Comparison</a>
+            </div>
+            
+            <footer>
+                <p>AB InBev Credit Risk Analysis • Confusion Matrix Analysis</p>
+            </footer>
+        </div>
+    </body>
+    </html>
+    

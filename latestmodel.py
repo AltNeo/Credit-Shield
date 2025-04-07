@@ -50,7 +50,7 @@ def preprocess_data(df, target_column):
     """
     print("\nPreprocessing data...")
     
-    # Make a copy to avoid modifying the original
+
     data = df.copy()
     
     # Separate features and target

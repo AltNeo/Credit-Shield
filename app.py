@@ -138,7 +138,7 @@ def about():
 def dashboard():
     # In a real application, this data would come from a database
     metrics = {
-        'total_assessments': 1248,
+        'total_assessments': 110,
         'low_risk_percent': 75,
         'high_risk_percent': 25,
         'avg_loan_amount': '24,750'
@@ -148,7 +148,7 @@ def dashboard():
     recent_assessments = [
         {
             'id': 'CR12845',
-            'date': '2023-07-15',
+            'date': '2025-02-15',
             'loan_amount': '320,000',
             'term': 360,
             'grade': 'A',
@@ -157,7 +157,7 @@ def dashboard():
         },
         {
             'id': 'CR12844',
-            'date': '2023-07-15',
+            'date': '2025-02-16',
             'loan_amount': '45,000',
             'term': 60,
             'grade': 'C',
@@ -166,7 +166,7 @@ def dashboard():
         },
         {
             'id': 'CR12843',
-            'date': '2023-07-14',
+            'date': '2025-01-11',
             'loan_amount': '32,500',
             'term': 48,
             'grade': 'B',
@@ -175,7 +175,7 @@ def dashboard():
         },
         {
             'id': 'CR12842',
-            'date': '2023-07-14',
+            'date': '2025-01-09',
             'loan_amount': '18,750',
             'term': 36,
             'grade': 'F',
@@ -184,7 +184,7 @@ def dashboard():
         },
         {
             'id': 'CR12841',
-            'date': '2023-07-13',
+            'date': '2024-012-27',
             'loan_amount': '125,000',
             'term': 84,
             'grade': 'D',
@@ -941,19 +941,19 @@ def model_performance():
     metrics = {
         'default_model': {
             'name': 'Random Forest Model',
-            'accuracy': 92,
+            'accuracy': 94,
             'auc': 0.89,
-            'f1_score': 0.87,
+            'f1_score': 0.93,
             'training_size': 10000,
-            'last_updated': '2023-12-01'
+            'last_updated': '2025-02-23'
         },
         'alternative_model': {
             'name': 'XGBoost Model',
-            'accuracy': 94,
+            'accuracy': 92,
             'auc': 0.91,
-            'f1_score': 0.89,
+            'f1_score': 0.92,
             'training_size': 10000,
-            'last_updated': '2023-12-15'
+            'last_updated': '2025-02-23'
         }
     }
     

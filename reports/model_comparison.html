@@ -1,0 +1,133 @@
+
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>AB InBev Credit Risk Model Comparison</title>
+        <style>
+            body { font-family: Arial, sans-serif; margin: 20px; color: #333; background-color: #f9f9f9; }
+            .container { max-width: 1200px; margin: 0 auto; background-color: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+            h1 { color: #2c3e50; border-bottom: 2px solid #3498db; padding-bottom: 10px; }
+            h2 { color: #2c3e50; margin-top: 30px; padding: 10px; background-color: #f5f5f5; border-left: 4px solid #3498db; }
+            table { border-collapse: collapse; width: 100%; margin: 20px 0; }
+            th, td { border: 1px solid #ddd; padding: 12px; text-align: center; }
+            th { background-color: #f2f2f2; color: #2c3e50; font-weight: bold; }
+            tr:nth-child(even) { background-color: #f9f9f9; }
+            .comparison-table { margin-bottom: 30px; }
+            .visualization { margin: 20px 0; text-align: center; }
+            .visualization img { max-width: 100%; height: auto; border: 1px solid #ddd; border-radius: 5px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+            .timestamp { color: #7f8c8d; font-size: 14px; margin-bottom: 20px; }
+            footer { margin-top: 30px; text-align: center; color: #7f8c8d; font-size: 14px; padding-top: 20px; border-top: 1px solid #eee; }
+            .stat-highlight { font-weight: bold; color: #2980b9; }
+            .metric-value { font-size: 1.1em; }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <h1>AB InBev Credit Risk Model Comparison</h1>
+            <p class="timestamp">Generated on: 2025-03-31 04:46:17</p>
+    
+            <h2>Overall Model Performance</h2>
+            <div class="comparison-table">
+                <table border="1" class="dataframe dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>Model</th>
+      <th>Accuracy</th>
+      <th>Precision</th>
+      <th>Recall</th>
+      <th>F1 Score</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>RandomForest</td>
+      <td>0.8754</td>
+      <td>0.8801</td>
+      <td>0.8754</td>
+      <td>0.8762</td>
+    </tr>
+  </tbody>
+</table>
+            </div>
+        
+            <div class="visualization">
+                <img src="reports\comparisons\overall_metrics.png" alt="Overall Model Performance">
+            </div>
+            
+            <h2>Performance by Class</h2>
+            <div class="comparison-table">
+                <table border="1" class="dataframe dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>Class</th>
+      <th>Precision</th>
+      <th>Recall</th>
+      <th>F1 Score</th>
+      <th>Support</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>A</td>
+      <td>0.9200</td>
+      <td>0.8800</td>
+      <td>0.9000</td>
+      <td>1250</td>
+    </tr>
+    <tr>
+      <td>B</td>
+      <td>0.8500</td>
+      <td>0.9000</td>
+      <td>0.8700</td>
+      <td>2500</td>
+    </tr>
+    <tr>
+      <td>C</td>
+      <td>0.7900</td>
+      <td>0.8200</td>
+      <td>0.8000</td>
+      <td>1250</td>
+    </tr>
+  </tbody>
+</table>
+            </div>
+        
+                <div class="visualization">
+                    <img src="reports\comparisons\class_metrics.png" alt="Class Metrics Comparison">
+                </div>
+                
+                <div class="visualization">
+                    <img src="reports\comparisons\class_support.png" alt="Class Support">
+                </div>
+                
+            <h2>Conclusions & Recommendations</h2>
+            <p>
+                Based on the model performance metrics:
+            </p>
+    
+            <p><span class="stat-highlight">The model shows strong overall performance</span> with high F1 score, indicating good balance between precision and recall.</p>
+            
+            <p><span class="stat-highlight">Class imbalance considerations:</span> The performance varies across different classes. 
+            Class "C" shows the lowest F1 score (0.8000), which may indicate:</p>
+            <ul>
+                <li>Imbalanced training data for this class</li>
+                <li>This class might be inherently more difficult to predict</li>
+                <li>Features might not be as informative for this particular class</li>
+            </ul>
+            <p><span class="stat-highlight">Recommendations:</span></p>
+            <ul>
+                <li>Consider applying class balancing techniques (oversampling, undersampling, or SMOTE)</li>
+                <li>Feature engineering focused on improving discrimination for under-performing classes</li>
+                <li>Optimize model parameters with emphasis on class-specific performance</li>
+                <li>Experiment with different model architectures or ensemble methods</li>
+            </ul>
+            
+            <footer>
+                <p>AB InBev Credit Risk Analysis • Model Comparison</p>
+            </footer>
+        </div>
+    </body>
+    </html>
+    

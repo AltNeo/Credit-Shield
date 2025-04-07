@@ -1,0 +1,144 @@
+
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <title>Credit Risk Model Analysis Report</title>
+            <style>
+                body {
+                    font-family: Arial, sans-serif;
+                    line-height: 1.6;
+                    margin: 0;
+                    padding: 20px;
+                    color: #333;
+                }
+                .container {
+                    max-width: 1200px;
+                    margin: 0 auto;
+                }
+                h1, h2, h3 {
+                    color: #2c3e50;
+                }
+                h1 {
+                    border-bottom: 2px solid #3498db;
+                    padding-bottom: 10px;
+                    margin-bottom: 20px;
+                }
+                h2 {
+                    border-bottom: 1px solid #bdc3c7;
+                    padding-bottom: 5px;
+                    margin-top: 30px;
+                }
+                .metric-card {
+                    background: #f9f9f9;
+                    border-radius: 5px;
+                    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+                    padding: 15px;
+                    margin-bottom: 20px;
+                }
+                .metric-value {
+                    font-size: 24px;
+                    font-weight: bold;
+                    color: #2980b9;
+                }
+                .metric-label {
+                    font-size: 14px;
+                    color: #7f8c8d;
+                }
+                .metrics-container {
+                    display: flex;
+                    flex-wrap: wrap;
+                    justify-content: space-between;
+                }
+                .metrics-container .metric-card {
+                    flex: 0 0 22%;
+                }
+                table {
+                    width: 100%;
+                    border-collapse: collapse;
+                    margin-bottom: 20px;
+                }
+                th, td {
+                    padding: 10px;
+                    border: 1px solid #ddd;
+                    text-align: left;
+                }
+                th {
+                    background-color: #f2f2f2;
+                }
+                .image-container {
+                    margin: 20px 0;
+                }
+                img {
+                    max-width: 100%;
+                    height: auto;
+                    display: block;
+                    margin: 0 auto;
+                    border: 1px solid #ddd;
+                }
+                .footer {
+                    margin-top: 50px;
+                    text-align: center;
+                    color: #7f8c8d;
+                    font-size: 14px;
+                }
+            </style>
+        </head>
+        <body>
+            <div class="container">
+                <h1>Credit Risk Model Analysis Report</h1>
+                <p>Generated on: 2025-03-31 02:40:45</p>
+                
+                <h2>Executive Summary</h2>
+                <p>
+                    This report presents a comprehensive analysis of the credit risk model developed using 
+                    Random Forest classification. The analysis includes dataset exploration, model performance evaluation,
+                    and feature importance analysis.
+                </p>
+        
+                <h2>Dataset Overview</h2>
+                <p>
+                    The analysis is based on a dataset with 10000 rows and 
+                    73 columns. 
+            
+                    The dataset contains 31 columns with missing values.
+                </p>
+                
+                <h2>Visualizations</h2>
+        
+                <h3>Target Variable Distribution</h3>
+                <div class="image-container">
+                    <img src="figures/target_distribution.png" alt="Target Variable Distribution">
+                </div>
+                
+                <h3>Numerical Feature Distributions</h3>
+                <div class="image-container">
+                    <img src="figures/numerical_distributions.png" alt="Numerical Feature Distributions">
+                </div>
+                
+                <h3>Feature Correlation Heatmap</h3>
+                <div class="image-container">
+                    <img src="figures/correlation_heatmap.png" alt="Feature Correlation Heatmap">
+                </div>
+                
+                <h2>Conclusion and Recommendations</h2>
+                <p>
+                    The Random Forest model demonstrates good performance for credit risk prediction.
+                    Feature importance analysis highlights the key factors influencing credit risk predictions.
+                </p>
+                <p>
+                    Recommendations:
+                </p>
+                <ul>
+                    <li>Consider the top features identified in the model for credit risk assessment</li>
+                    <li>Monitor model performance over time as new data becomes available</li>
+                    <li>Evaluate model fairness across different demographic groups</li>
+                    <li>Consider implementing model interpretability techniques for individual predictions</li>
+                </ul>
+                
+                <div class="footer">
+                    <p>AB InBev Credit Risk Analysis Report • Generated with CreditRiskAnalytics</p>
+                </div>
+            </div>
+        </body>
+        </html>
+        

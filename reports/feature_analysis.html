@@ -1,0 +1,1651 @@
+
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>AB InBev Credit Risk Model - Feature Analysis</title>
+        <style>
+            body { font-family: Arial, sans-serif; margin: 20px; color: #333; background-color: #f9f9f9; }
+            .container { max-width: 1200px; margin: 0 auto; background-color: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+            h1 { color: #2c3e50; border-bottom: 2px solid #3498db; padding-bottom: 10px; }
+            h2 { color: #2c3e50; margin-top: 30px; padding: 10px; background-color: #f5f5f5; border-left: 4px solid #3498db; }
+            h3 { color: #2c3e50; margin-top: 25px; }
+            table { border-collapse: collapse; width: 100%; margin: 20px 0; overflow-x: auto; }
+            th, td { border: 1px solid #ddd; padding: 12px; text-align: left; }
+            th { background-color: #f2f2f2; color: #2c3e50; font-weight: bold; }
+            tr:nth-child(even) { background-color: #f9f9f9; }
+            .feature-section { margin-bottom: 40px; padding-bottom: 20px; border-bottom: 1px dashed #ccc; }
+            .visualization { margin: 20px 0; text-align: center; }
+            .visualization img { max-width: 100%; height: auto; border: 1px solid #ddd; border-radius: 5px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+            .timestamp { color: #7f8c8d; font-size: 14px; margin-bottom: 20px; }
+            footer { margin-top: 30px; text-align: center; color: #7f8c8d; font-size: 14px; padding-top: 20px; border-top: 1px solid #eee; }
+            .stats-highlight { background-color: #f8f9fa; padding: 15px; border-left: 4px solid #3498db; margin: 20px 0; }
+            .importance-indicator { display: inline-block; width: 15px; height: 15px; border-radius: 50%; margin-right: 5px; }
+            .high-importance { background-color: #e74c3c; }
+            .medium-importance { background-color: #f39c12; }
+            .low-importance { background-color: #3498db; }
+            .stats-table { margin: 20px 0; }
+            .stats-table table { width: 100%; }
+            .stats-card { background-color: #f9f9f9; padding: 15px; border-radius: 5px; margin: 10px 0; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+            .nav-links { display: flex; justify-content: space-between; margin: 20px 0; }
+            .nav-button { padding: 10px 20px; background-color: #3498db; color: white; text-decoration: none; border-radius: 5px; }
+            .high-correlation { color: #e74c3c; font-weight: bold; }
+            .feature-cards { display: flex; flex-wrap: wrap; justify-content: space-between; }
+            .feature-card { width: 48%; margin-bottom: 20px; padding: 15px; border-radius: 5px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+            @media (max-width: 768px) { .feature-card { width: 100%; } }
+            .toggle-button { cursor: pointer; color: #3498db; margin-left: 10px; }
+            .collapsible { display: block; }
+            .hidden { display: none; }
+        </style>
+        <script>
+            function toggleSection(id) {
+                var element = document.getElementById(id);
+                var button = document.getElementById(id + '-toggle');
+                if (element.classList.contains('hidden')) {
+                    element.classList.remove('hidden');
+                    button.textContent = '[-]';
+                } else {
+                    element.classList.add('hidden');
+                    button.textContent = '[+]';
+                }
+            }
+        </script>
+    </head>
+    <body>
+        <div class="container">
+            <h1>AB InBev Credit Risk Model - Feature Analysis</h1>
+            <p class="timestamp">Generated on: 2025-03-31 05:43:59</p>
+            
+            <div class="nav-links">
+                <a href="multi_model_comparison.html" class="nav-button">← Model Comparison</a>
+                <a href="confusion_matrix_analysis.html" class="nav-button">Confusion Matrix Analysis →</a>
+            </div>
+            
+            <h2>Feature Importance Overview</h2>
+            <p>
+                The analysis below examines each feature's characteristics and potential impact on credit risk predictions.
+                Features are ordered by their estimated importance to the model.
+            </p>
+            
+            <div class="visualization">
+                <img src="feature_analysis/plots/default_correlation.png" alt="Feature Importance">
+            </div>
+            
+            <h2>Feature Correlation Analysis</h2>
+            <p>
+                The heatmap below shows correlations between numerical features. Strong correlations may indicate redundant information.
+            </p>
+            
+            <div class="visualization">
+                <img src="feature_analysis/plots/correlation_matrix.png" alt="Correlation Matrix">
+            </div>
+    
+            <h2>Individual Feature Analysis</h2>
+            <p>
+                Each feature is analyzed below with descriptive statistics and visualizations.
+                <span class="importance-indicator high-importance"></span> High importance features
+                <span class="importance-indicator medium-importance"></span> Medium importance features
+                <span class="importance-indicator low-importance"></span> Low importance features
+            </p>
+    
+            <div class="feature-section">
+                <h3>
+                    <span class="importance-indicator high-importance"></span>
+                    total_rev_hi_lim 
+                    <span class="toggle-button" id="feature-total_rev_hi_lim-toggle" onclick="toggleSection('feature-total_rev_hi_lim')">[-]</span>
+                </h3>
+                
+                <div id="feature-total_rev_hi_lim" class="collapsible">
+                    <p><strong>Importance Score:</strong> 0.3932</p>
+        
+                    <div class="visualization">
+                        <img src="feature_analysis/plots/total_rev_hi_lim_distribution.png" alt="total_rev_hi_lim Distribution">
+                    </div>
+            
+                    <div class="stats-card">
+                        <h4>Descriptive Statistics</h4>
+                        <div class="stats-table">
+                            <table>
+                                <tr>
+                                    <th>Statistic</th>
+                                    <th>Value</th>
+                                    <th>Percentile</th>
+                                    <th>Value</th>
+                                </tr>
+                                <tr>
+                                    <td>Mean</td>
+                                    <td>29426.1397</td>
+                                    <td>5th Percentile</td>
+                                    <td>6400.0000</td>
+                                </tr>
+                                <tr>
+                                    <td>Median</td>
+                                    <td>23100.0000</td>
+                                    <td>25th Percentile</td>
+                                    <td>13800.0000</td>
+                                </tr>
+                                <tr>
+                                    <td>Standard Deviation</td>
+                                    <td>25295.0515</td>
+                                    <td>75th Percentile</td>
+                                    <td>36800.0000</td>
+                                </tr>
+                                <tr>
+                                    <td>Minimum</td>
+                                    <td>0.0000</td>
+                                    <td>95th Percentile</td>
+                                    <td>73531.5000</td>
+                                </tr>
+                                <tr>
+                                    <td>Maximum</td>
+                                    <td>333270.0000</td>
+                                    <td>Skewness</td>
+                                    <td>3.4843</td>
+                                </tr>
+                                <tr>
+                                    <td>Missing Values</td>
+                                    <td>2157 (21.57%)</td>
+                                    <td>Kurtosis</td>
+                                    <td>22.9176</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+            
+                </div>
+            </div>
+        
+            <div class="feature-section">
+                <h3>
+                    <span class="importance-indicator high-importance"></span>
+                    id 
+                    <span class="toggle-button" id="feature-id-toggle" onclick="toggleSection('feature-id')">[-]</span>
+                </h3>
+                
+                <div id="feature-id" class="collapsible">
+                    <p><strong>Importance Score:</strong> 0.3018</p>
+        
+                    <div class="visualization">
+                        <img src="feature_analysis/plots/id_distribution.png" alt="id Distribution">
+                    </div>
+            
+                    <div class="stats-card">
+                        <h4>Descriptive Statistics</h4>
+                        <div class="stats-table">
+                            <table>
+                                <tr>
+                                    <th>Statistic</th>
+                                    <th>Value</th>
+                                    <th>Percentile</th>
+                                    <th>Value</th>
+                                </tr>
+                                <tr>
+                                    <td>Mean</td>
+                                    <td>4529738.1374</td>
+                                    <td>5th Percentile</td>
+                                    <td>516346.8500</td>
+                                </tr>
+                                <tr>
+                                    <td>Median</td>
+                                    <td>4375089.0000</td>
+                                    <td>25th Percentile</td>
+                                    <td>1551364.0000</td>
+                                </tr>
+                                <tr>
+                                    <td>Standard Deviation</td>
+                                    <td>2987386.8935</td>
+                                    <td>75th Percentile</td>
+                                    <td>7048246.5000</td>
+                                </tr>
+                                <tr>
+                                    <td>Minimum</td>
+                                    <td>65426.0000</td>
+                                    <td>95th Percentile</td>
+                                    <td>9236273.4500</td>
+                                </tr>
+                                <tr>
+                                    <td>Maximum</td>
+                                    <td>10224658.0000</td>
+                                    <td>Skewness</td>
+                                    <td>0.1485</td>
+                                </tr>
+                                <tr>
+                                    <td>Missing Values</td>
+                                    <td>0 (0.00%)</td>
+                                    <td>Kurtosis</td>
+                                    <td>-1.2857</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+            
+                </div>
+            </div>
+        
+            <div class="feature-section">
+                <h3>
+                    <span class="importance-indicator low-importance"></span>
+                    int_rate 
+                    <span class="toggle-button" id="feature-int_rate-toggle" onclick="toggleSection('feature-int_rate')">[-]</span>
+                </h3>
+                
+                <div id="feature-int_rate" class="collapsible">
+                    <p><strong>Importance Score:</strong> 0.0134</p>
+        
+                    <div class="visualization">
+                        <img src="feature_analysis/plots/int_rate_distribution.png" alt="int_rate Distribution">
+                    </div>
+            
+                    <div class="stats-card">
+                        <h4>Descriptive Statistics</h4>
+                        <div class="stats-table">
+                            <table>
+                                <tr>
+                                    <th>Statistic</th>
+                                    <th>Value</th>
+                                    <th>Percentile</th>
+                                    <th>Value</th>
+                                </tr>
+                                <tr>
+                                    <td>Mean</td>
+                                    <td>13.9794</td>
+                                    <td>5th Percentile</td>
+                                    <td>6.9675</td>
+                                </tr>
+                                <tr>
+                                    <td>Median</td>
+                                    <td>13.6800</td>
+                                    <td>25th Percentile</td>
+                                    <td>10.9900</td>
+                                </tr>
+                                <tr>
+                                    <td>Standard Deviation</td>
+                                    <td>4.4254</td>
+                                    <td>75th Percentile</td>
+                                    <td>17.1000</td>
+                                </tr>
+                                <tr>
+                                    <td>Minimum</td>
+                                    <td>5.4200</td>
+                                    <td>95th Percentile</td>
+                                    <td>21.9800</td>
+                                </tr>
+                                <tr>
+                                    <td>Maximum</td>
+                                    <td>26.0600</td>
+                                    <td>Skewness</td>
+                                    <td>0.2648</td>
+                                </tr>
+                                <tr>
+                                    <td>Missing Values</td>
+                                    <td>0 (0.00%)</td>
+                                    <td>Kurtosis</td>
+                                    <td>-0.4700</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+            
+                </div>
+            </div>
+        
+            <div class="feature-section">
+                <h3>
+                    <span class="importance-indicator low-importance"></span>
+                    member_id 
+                    <span class="toggle-button" id="feature-member_id-toggle" onclick="toggleSection('feature-member_id')">[-]</span>
+                </h3>
+                
+                <div id="feature-member_id" class="collapsible">
+                    <p><strong>Importance Score:</strong> 0.0123</p>
+        
+                    <div class="visualization">
+                        <img src="feature_analysis/plots/member_id_distribution.png" alt="member_id Distribution">
+                    </div>
+            
+                    <div class="stats-card">
+                        <h4>Descriptive Statistics</h4>
+                        <div class="stats-table">
+                            <table>
+                                <tr>
+                                    <th>Statistic</th>
+                                    <th>Value</th>
+                                    <th>Percentile</th>
+                                    <th>Value</th>
+                                </tr>
+                                <tr>
+                                    <td>Mean</td>
+                                    <td>5407037.5108</td>
+                                    <td>5th Percentile</td>
+                                    <td>667122.8000</td>
+                                </tr>
+                                <tr>
+                                    <td>Median</td>
+                                    <td>5397179.5000</td>
+                                    <td>25th Percentile</td>
+                                    <td>1803137.2500</td>
+                                </tr>
+                                <tr>
+                                    <td>Standard Deviation</td>
+                                    <td>3576200.5228</td>
+                                    <td>75th Percentile</td>
+                                    <td>8499942.5000</td>
+                                </tr>
+                                <tr>
+                                    <td>Minimum</td>
+                                    <td>98957.0000</td>
+                                    <td>95th Percentile</td>
+                                    <td>11040541.6000</td>
+                                </tr>
+                                <tr>
+                                    <td>Maximum</td>
+                                    <td>12086813.0000</td>
+                                    <td>Skewness</td>
+                                    <td>0.1334</td>
+                                </tr>
+                                <tr>
+                                    <td>Missing Values</td>
+                                    <td>0 (0.00%)</td>
+                                    <td>Kurtosis</td>
+                                    <td>-1.3353</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+            
+                </div>
+            </div>
+        
+            <div class="feature-section">
+                <h3>
+                    <span class="importance-indicator low-importance"></span>
+                    installment 
+                    <span class="toggle-button" id="feature-installment-toggle" onclick="toggleSection('feature-installment')">[-]</span>
+                </h3>
+                
+                <div id="feature-installment" class="collapsible">
+                    <p><strong>Importance Score:</strong> 0.0119</p>
+        
+                    <div class="visualization">
+                        <img src="feature_analysis/plots/installment_distribution.png" alt="installment Distribution">
+                    </div>
+            
+                    <div class="stats-card">
+                        <h4>Descriptive Statistics</h4>
+                        <div class="stats-table">
+                            <table>
+                                <tr>
+                                    <th>Statistic</th>
+                                    <th>Value</th>
+                                    <th>Percentile</th>
+                                    <th>Value</th>
+                                </tr>
+                                <tr>
+                                    <td>Mean</td>
+                                    <td>424.5382</td>
+                                    <td>5th Percentile</td>
+                                    <td>106.4700</td>
+                                </tr>
+                                <tr>
+                                    <td>Median</td>
+                                    <td>375.4900</td>
+                                    <td>25th Percentile</td>
+                                    <td>252.2075</td>
+                                </tr>
+                                <tr>
+                                    <td>Standard Deviation</td>
+                                    <td>242.3690</td>
+                                    <td>75th Percentile</td>
+                                    <td>556.4650</td>
+                                </tr>
+                                <tr>
+                                    <td>Minimum</td>
+                                    <td>21.8100</td>
+                                    <td>95th Percentile</td>
+                                    <td>898.3100</td>
+                                </tr>
+                                <tr>
+                                    <td>Maximum</td>
+                                    <td>1406.4500</td>
+                                    <td>Skewness</td>
+                                    <td>0.9731</td>
+                                </tr>
+                                <tr>
+                                    <td>Missing Values</td>
+                                    <td>0 (0.00%)</td>
+                                    <td>Kurtosis</td>
+                                    <td>0.9154</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+            
+                </div>
+            </div>
+        
+            <div class="feature-section">
+                <h3>
+                    <span class="importance-indicator low-importance"></span>
+                    tot_cur_bal 
+                    <span class="toggle-button" id="feature-tot_cur_bal-toggle" onclick="toggleSection('feature-tot_cur_bal')">[-]</span>
+                </h3>
+                
+                <div id="feature-tot_cur_bal" class="collapsible">
+                    <p><strong>Importance Score:</strong> 0.0110</p>
+        
+                    <div class="visualization">
+                        <img src="feature_analysis/plots/tot_cur_bal_distribution.png" alt="tot_cur_bal Distribution">
+                    </div>
+            
+                    <div class="stats-card">
+                        <h4>Descriptive Statistics</h4>
+                        <div class="stats-table">
+                            <table>
+                                <tr>
+                                    <th>Statistic</th>
+                                    <th>Value</th>
+                                    <th>Percentile</th>
+                                    <th>Value</th>
+                                </tr>
+                                <tr>
+                                    <td>Mean</td>
+                                    <td>134929.3485</td>
+                                    <td>5th Percentile</td>
+                                    <td>8636.1000</td>
+                                </tr>
+                                <tr>
+                                    <td>Median</td>
+                                    <td>80061.0000</td>
+                                    <td>25th Percentile</td>
+                                    <td>27245.5000</td>
+                                </tr>
+                                <tr>
+                                    <td>Standard Deviation</td>
+                                    <td>143635.1989</td>
+                                    <td>75th Percentile</td>
+                                    <td>205680.5000</td>
+                                </tr>
+                                <tr>
+                                    <td>Minimum</td>
+                                    <td>0.0000</td>
+                                    <td>95th Percentile</td>
+                                    <td>410623.6000</td>
+                                </tr>
+                                <tr>
+                                    <td>Maximum</td>
+                                    <td>2000400.0000</td>
+                                    <td>Skewness</td>
+                                    <td>2.0305</td>
+                                </tr>
+                                <tr>
+                                    <td>Missing Values</td>
+                                    <td>2157 (21.57%)</td>
+                                    <td>Kurtosis</td>
+                                    <td>8.3459</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+            
+                </div>
+            </div>
+        
+            <div class="feature-section">
+                <h3>
+                    <span class="importance-indicator low-importance"></span>
+                    dti 
+                    <span class="toggle-button" id="feature-dti-toggle" onclick="toggleSection('feature-dti')">[-]</span>
+                </h3>
+                
+                <div id="feature-dti" class="collapsible">
+                    <p><strong>Importance Score:</strong> 0.0087</p>
+        
+                    <div class="visualization">
+                        <img src="feature_analysis/plots/dti_distribution.png" alt="dti Distribution">
+                    </div>
+            
+                    <div class="stats-card">
+                        <h4>Descriptive Statistics</h4>
+                        <div class="stats-table">
+                            <table>
+                                <tr>
+                                    <th>Statistic</th>
+                                    <th>Value</th>
+                                    <th>Percentile</th>
+                                    <th>Value</th>
+                                </tr>
+                                <tr>
+                                    <td>Mean</td>
+                                    <td>16.4487</td>
+                                    <td>5th Percentile</td>
+                                    <td>4.2895</td>
+                                </tr>
+                                <tr>
+                                    <td>Median</td>
+                                    <td>16.2050</td>
+                                    <td>25th Percentile</td>
+                                    <td>10.7300</td>
+                                </tr>
+                                <tr>
+                                    <td>Standard Deviation</td>
+                                    <td>7.6078</td>
+                                    <td>75th Percentile</td>
+                                    <td>21.9525</td>
+                                </tr>
+                                <tr>
+                                    <td>Minimum</td>
+                                    <td>0.0000</td>
+                                    <td>95th Percentile</td>
+                                    <td>29.4300</td>
+                                </tr>
+                                <tr>
+                                    <td>Maximum</td>
+                                    <td>34.9900</td>
+                                    <td>Skewness</td>
+                                    <td>0.1245</td>
+                                </tr>
+                                <tr>
+                                    <td>Missing Values</td>
+                                    <td>0 (0.00%)</td>
+                                    <td>Kurtosis</td>
+                                    <td>-0.6390</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+            
+                </div>
+            </div>
+        
+            <div class="feature-section">
+                <h3>
+                    <span class="importance-indicator low-importance"></span>
+                    annual_inc 
+                    <span class="toggle-button" id="feature-annual_inc-toggle" onclick="toggleSection('feature-annual_inc')">[-]</span>
+                </h3>
+                
+                <div id="feature-annual_inc" class="collapsible">
+                    <p><strong>Importance Score:</strong> 0.0082</p>
+        
+                    <div class="visualization">
+                        <img src="feature_analysis/plots/annual_inc_distribution.png" alt="annual_inc Distribution">
+                    </div>
+            
+                    <div class="stats-card">
+                        <h4>Descriptive Statistics</h4>
+                        <div class="stats-table">
+                            <table>
+                                <tr>
+                                    <th>Statistic</th>
+                                    <th>Value</th>
+                                    <th>Percentile</th>
+                                    <th>Value</th>
+                                </tr>
+                                <tr>
+                                    <td>Mean</td>
+                                    <td>71582.6103</td>
+                                    <td>5th Percentile</td>
+                                    <td>27600.0000</td>
+                                </tr>
+                                <tr>
+                                    <td>Median</td>
+                                    <td>61000.0000</td>
+                                    <td>25th Percentile</td>
+                                    <td>45000.0000</td>
+                                </tr>
+                                <tr>
+                                    <td>Standard Deviation</td>
+                                    <td>48635.9529</td>
+                                    <td>75th Percentile</td>
+                                    <td>86000.0000</td>
+                                </tr>
+                                <tr>
+                                    <td>Minimum</td>
+                                    <td>6000.0000</td>
+                                    <td>95th Percentile</td>
+                                    <td>144000.0000</td>
+                                </tr>
+                                <tr>
+                                    <td>Maximum</td>
+                                    <td>1500000.0000</td>
+                                    <td>Skewness</td>
+                                    <td>7.9848</td>
+                                </tr>
+                                <tr>
+                                    <td>Missing Values</td>
+                                    <td>0 (0.00%)</td>
+                                    <td>Kurtosis</td>
+                                    <td>160.9068</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+            
+                </div>
+            </div>
+        
+            <div class="feature-section">
+                <h3>
+                    <span class="importance-indicator low-importance"></span>
+                    loan_amnt 
+                    <span class="toggle-button" id="feature-loan_amnt-toggle" onclick="toggleSection('feature-loan_amnt')">[-]</span>
+                </h3>
+                
+                <div id="feature-loan_amnt" class="collapsible">
+                    <p><strong>Importance Score:</strong> 0.0073</p>
+        
+                    <div class="visualization">
+                        <img src="feature_analysis/plots/loan_amnt_distribution.png" alt="loan_amnt Distribution">
+                    </div>
+            
+                    <div class="stats-card">
+                        <h4>Descriptive Statistics</h4>
+                        <div class="stats-table">
+                            <table>
+                                <tr>
+                                    <th>Statistic</th>
+                                    <th>Value</th>
+                                    <th>Percentile</th>
+                                    <th>Value</th>
+                                </tr>
+                                <tr>
+                                    <td>Mean</td>
+                                    <td>13901.9000</td>
+                                    <td>5th Percentile</td>
+                                    <td>3198.7500</td>
+                                </tr>
+                                <tr>
+                                    <td>Median</td>
+                                    <td>12000.0000</td>
+                                    <td>25th Percentile</td>
+                                    <td>8000.0000</td>
+                                </tr>
+                                <tr>
+                                    <td>Standard Deviation</td>
+                                    <td>8114.9933</td>
+                                    <td>75th Percentile</td>
+                                    <td>19381.2500</td>
+                                </tr>
+                                <tr>
+                                    <td>Minimum</td>
+                                    <td>1000.0000</td>
+                                    <td>95th Percentile</td>
+                                    <td>30000.0000</td>
+                                </tr>
+                                <tr>
+                                    <td>Maximum</td>
+                                    <td>35000.0000</td>
+                                    <td>Skewness</td>
+                                    <td>0.7480</td>
+                                </tr>
+                                <tr>
+                                    <td>Missing Values</td>
+                                    <td>0 (0.00%)</td>
+                                    <td>Kurtosis</td>
+                                    <td>-0.0632</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+            
+                </div>
+            </div>
+        
+            <div class="feature-section">
+                <h3>
+                    <span class="importance-indicator low-importance"></span>
+                    funded_amnt_inv 
+                    <span class="toggle-button" id="feature-funded_amnt_inv-toggle" onclick="toggleSection('feature-funded_amnt_inv')">[-]</span>
+                </h3>
+                
+                <div id="feature-funded_amnt_inv" class="collapsible">
+                    <p><strong>Importance Score:</strong> 0.0069</p>
+        
+                    <div class="visualization">
+                        <img src="feature_analysis/plots/funded_amnt_inv_distribution.png" alt="funded_amnt_inv Distribution">
+                    </div>
+            
+                    <div class="stats-card">
+                        <h4>Descriptive Statistics</h4>
+                        <div class="stats-table">
+                            <table>
+                                <tr>
+                                    <th>Statistic</th>
+                                    <th>Value</th>
+                                    <th>Percentile</th>
+                                    <th>Value</th>
+                                </tr>
+                                <tr>
+                                    <td>Mean</td>
+                                    <td>13699.8371</td>
+                                    <td>5th Percentile</td>
+                                    <td>3000.0000</td>
+                                </tr>
+                                <tr>
+                                    <td>Median</td>
+                                    <td>12000.0000</td>
+                                    <td>25th Percentile</td>
+                                    <td>7750.0000</td>
+                                </tr>
+                                <tr>
+                                    <td>Standard Deviation</td>
+                                    <td>8115.2999</td>
+                                    <td>75th Percentile</td>
+                                    <td>19000.0000</td>
+                                </tr>
+                                <tr>
+                                    <td>Minimum</td>
+                                    <td>0.0000</td>
+                                    <td>95th Percentile</td>
+                                    <td>30000.0000</td>
+                                </tr>
+                                <tr>
+                                    <td>Maximum</td>
+                                    <td>35000.0000</td>
+                                    <td>Skewness</td>
+                                    <td>0.7543</td>
+                                </tr>
+                                <tr>
+                                    <td>Missing Values</td>
+                                    <td>0 (0.00%)</td>
+                                    <td>Kurtosis</td>
+                                    <td>-0.0341</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+            
+                </div>
+            </div>
+        
+            <div class="feature-section">
+                <h3>
+                    <span class="importance-indicator low-importance"></span>
+                    desc 
+                    <span class="toggle-button" id="feature-desc-toggle" onclick="toggleSection('feature-desc')">[-]</span>
+                </h3>
+                
+                <div id="feature-desc" class="collapsible">
+                    <p><strong>Importance Score:</strong> 0.0061</p>
+        
+                    <div class="visualization">
+                        <img src="feature_analysis/plots/desc_distribution.png" alt="desc Distribution">
+                    </div>
+            
+                    <div class="stats-card">
+                        <h4>Category Distribution</h4>
+                        <p><strong>Unique values:</strong> 4577</p>
+                        <p><strong>Most common:</strong>   (0.20%)</p>
+                        <p><strong>Missing values:</strong> 5408 (54.08%)</p>
+                        
+                        <div class="stats-table">
+                            <table>
+                                <tr>
+                                    <th>Category</th>
+                                    <th>Count</th>
+                                    <th>Percentage</th>
+                                </tr>
+            
+                                <tr>
+                                    <td> </td>
+                                    <td>9</td>
+                                    <td>0.20%</td>
+                                </tr>
+                
+                                <tr>
+                                    <td>  Borrower added on 08/19/13 > debt consolidation<br></td>
+                                    <td>3</td>
+                                    <td>0.07%</td>
+                                </tr>
+                
+                                <tr>
+                                    <td>  Borrower added on 07/25/13 > Debt consolidation<br></td>
+                                    <td>2</td>
+                                    <td>0.04%</td>
+                                </tr>
+                
+                                <tr>
+                                    <td>Debt Consolidation</td>
+                                    <td>2</td>
+                                    <td>0.04%</td>
+                                </tr>
+                
+                                <tr>
+                                    <td>  Borrower added on 02/10/13 > debt consolidation<br></td>
+                                    <td>2</td>
+                                    <td>0.04%</td>
+                                </tr>
+                
+                                <tr>
+                                    <td>  Borrower added on 10/09/13 > To pay off credit cards<br></td>
+                                    <td>2</td>
+                                    <td>0.04%</td>
+                                </tr>
+                
+                                <tr>
+                                    <td>  Borrower added on 08/21/13 > Debt consolidation<br></td>
+                                    <td>2</td>
+                                    <td>0.04%</td>
+                                </tr>
+                
+                                <tr>
+                                    <td>  Borrower added on 02/26/13 > This is a loan to get out of debt faster and at lower rate than some credit cards that i have. this to me is a smart finacial decision.<br></td>
+                                    <td>1</td>
+                                    <td>0.02%</td>
+                                </tr>
+                
+                                <tr>
+                                    <td>  Borrower added on 03/08/13 > I need to consolidate my debt and finally pay off my cards where the interest payments are just constantly increasing.<br></td>
+                                    <td>1</td>
+                                    <td>0.02%</td>
+                                </tr>
+                
+                                <tr>
+                                    <td>  Borrower added on 02/24/13 > Loan is for consolidation of taxes, medical expenses and two other debts..  This will help to reduce my debt load and make it easier to pay my bills.<br></td>
+                                    <td>1</td>
+                                    <td>0.02%</td>
+                                </tr>
+                
+                                <tr>
+                                    <td>  Borrower added on 02/12/13 > Debt consolidation and refinance of existing debt.<br></td>
+                                    <td>1</td>
+                                    <td>0.02%</td>
+                                </tr>
+                
+                                <tr>
+                                    <td>  Borrower added on 03/04/13 > pay off debt<br></td>
+                                    <td>1</td>
+                                    <td>0.02%</td>
+                                </tr>
+                
+                                <tr>
+                                    <td>  Borrower added on 03/06/13 > I have been paying the minimum payment plus fifty dollars every month on a credit card for over five years.  I have only seen the balance go down one thousand dollars.  If I continue this trend, it will take me 55 years to pay it off.<br><br>  Borrower added on 03/12/13 > I have not missed a payment on any loan for the last 5 years and my job is stable.<br></td>
+                                    <td>1</td>
+                                    <td>0.02%</td>
+                                </tr>
+                
+                                <tr>
+                                    <td>  Borrower added on 11/24/11 > This is the perfect way for me to be able my credit card debt since I feel in a very stable financial position now after a recent promotion on the company I have worked for over four years. It will allow me to pay my debt; and, at the same time, it will allow me to keep extra cash every month. Thank you for taking me on consideration for this opportunities.<br></td>
+                                    <td>1</td>
+                                    <td>0.02%</td>
+                                </tr>
+                
+                                <tr>
+                                    <td>  Borrower added on 04/04/13 > I would like to consolidate all my debts into one account if possible so that I may be in better position in managing my financial matters going forward.<br></td>
+                                    <td>1</td>
+                                    <td>0.02%</td>
+                                </tr>
+                
+                                <tr>
+                                    <td>  Borrower added on 03/25/13 > take care of credit card debt<br></td>
+                                    <td>1</td>
+                                    <td>0.02%</td>
+                                </tr>
+                
+                                <tr>
+                                    <td>  Borrower added on 02/19/13 > I like to use the loan to pay off some other credit cards at higher interest rate<br><br> Borrower added on 02/19/13 > The loan is to pay off my other loans at a higher interest rate in credit card<br><br> Borrower added on 02/19/13 > The loans to pay off a credit cards and personal loan at a higher interest rate<br><br> Borrower added on 02/19/13 > to pay off three credit card in to one at a lower rate<br><br>  Borrower added on 02/20/13 > paying off a higher interest rate loans.<br></td>
+                                    <td>1</td>
+                                    <td>0.02%</td>
+                                </tr>
+                
+                                <tr>
+                                    <td>  Borrower added on 03/11/13 > Trying to knock out balances on credit cards at low interest rates and without tapping into long term savings, etc.<br></td>
+                                    <td>1</td>
+                                    <td>0.02%</td>
+                                </tr>
+                
+                                <tr>
+                                    <td>  Borrower added on 04/17/13 > Loan to fund a pool fence<br></td>
+                                    <td>1</td>
+                                    <td>0.02%</td>
+                                </tr>
+                
+                                <tr>
+                                    <td>  Borrower added on 02/07/13 > I am have been trying to pay off my credit cards for years. With this loan it will enable me to follow through and save for retirement.<br></td>
+                                    <td>1</td>
+                                    <td>0.02%</td>
+                                </tr>
+                
+                            </table>
+                        </div>
+                    </div>
+            
+                </div>
+            </div>
+        
+            <div class="feature-section">
+                <h3>
+                    <span class="importance-indicator low-importance"></span>
+                    revol_bal 
+                    <span class="toggle-button" id="feature-revol_bal-toggle" onclick="toggleSection('feature-revol_bal')">[-]</span>
+                </h3>
+                
+                <div id="feature-revol_bal" class="collapsible">
+                    <p><strong>Importance Score:</strong> 0.0059</p>
+        
+                    <div class="visualization">
+                        <img src="feature_analysis/plots/revol_bal_distribution.png" alt="revol_bal Distribution">
+                    </div>
+            
+                    <div class="stats-card">
+                        <h4>Descriptive Statistics</h4>
+                        <div class="stats-table">
+                            <table>
+                                <tr>
+                                    <th>Statistic</th>
+                                    <th>Value</th>
+                                    <th>Percentile</th>
+                                    <th>Value</th>
+                                </tr>
+                                <tr>
+                                    <td>Mean</td>
+                                    <td>15562.0247</td>
+                                    <td>5th Percentile</td>
+                                    <td>1614.6500</td>
+                                </tr>
+                                <tr>
+                                    <td>Median</td>
+                                    <td>11778.0000</td>
+                                    <td>25th Percentile</td>
+                                    <td>6551.5000</td>
+                                </tr>
+                                <tr>
+                                    <td>Standard Deviation</td>
+                                    <td>15887.5155</td>
+                                    <td>75th Percentile</td>
+                                    <td>20094.2500</td>
+                                </tr>
+                                <tr>
+                                    <td>Minimum</td>
+                                    <td>0.0000</td>
+                                    <td>95th Percentile</td>
+                                    <td>38175.1500</td>
+                                </tr>
+                                <tr>
+                                    <td>Maximum</td>
+                                    <td>304792.0000</td>
+                                    <td>Skewness</td>
+                                    <td>5.2286</td>
+                                </tr>
+                                <tr>
+                                    <td>Missing Values</td>
+                                    <td>0 (0.00%)</td>
+                                    <td>Kurtosis</td>
+                                    <td>54.1233</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+            
+                </div>
+            </div>
+        
+            <div class="feature-section">
+                <h3>
+                    <span class="importance-indicator low-importance"></span>
+                    title 
+                    <span class="toggle-button" id="feature-title-toggle" onclick="toggleSection('feature-title')">[-]</span>
+                </h3>
+                
+                <div id="feature-title" class="collapsible">
+                    <p><strong>Importance Score:</strong> 0.0059</p>
+        
+                    <div class="visualization">
+                        <img src="feature_analysis/plots/title_distribution.png" alt="title Distribution">
+                    </div>
+            
+                    <div class="stats-card">
+                        <h4>Category Distribution</h4>
+                        <p><strong>Unique values:</strong> 4113</p>
+                        <p><strong>Most common:</strong> Debt consolidation (10.55%)</p>
+                        <p><strong>Missing values:</strong> 3 (0.03%)</p>
+                        
+                        <div class="stats-table">
+                            <table>
+                                <tr>
+                                    <th>Category</th>
+                                    <th>Count</th>
+                                    <th>Percentage</th>
+                                </tr>
+            
+                                <tr>
+                                    <td>Debt consolidation</td>
+                                    <td>1055</td>
+                                    <td>10.55%</td>
+                                </tr>
+                
+                                <tr>
+                                    <td>Debt Consolidation</td>
+                                    <td>671</td>
+                                    <td>6.71%</td>
+                                </tr>
+                
+                                <tr>
+                                    <td>Credit card refinancing</td>
+                                    <td>399</td>
+                                    <td>3.99%</td>
+                                </tr>
+                
+                                <tr>
+                                    <td>Consolidation</td>
+                                    <td>238</td>
+                                    <td>2.38%</td>
+                                </tr>
+                
+                                <tr>
+                                    <td>debt consolidation</td>
+                                    <td>224</td>
+                                    <td>2.24%</td>
+                                </tr>
+                
+                                <tr>
+                                    <td>Debt Consolidation Loan</td>
+                                    <td>153</td>
+                                    <td>1.53%</td>
+                                </tr>
+                
+                                <tr>
+                                    <td>Other</td>
+                                    <td>113</td>
+                                    <td>1.13%</td>
+                                </tr>
+                
+                                <tr>
+                                    <td>Home improvement</td>
+                                    <td>101</td>
+                                    <td>1.01%</td>
+                                </tr>
+                
+                                <tr>
+                                    <td>Credit Card Consolidation</td>
+                                    <td>96</td>
+                                    <td>0.96%</td>
+                                </tr>
+                
+                                <tr>
+                                    <td>consolidation</td>
+                                    <td>93</td>
+                                    <td>0.93%</td>
+                                </tr>
+                
+                                <tr>
+                                    <td>Personal Loan</td>
+                                    <td>92</td>
+                                    <td>0.92%</td>
+                                </tr>
+                
+                                <tr>
+                                    <td>Consolidation Loan</td>
+                                    <td>86</td>
+                                    <td>0.86%</td>
+                                </tr>
+                
+                                <tr>
+                                    <td>Home Improvement</td>
+                                    <td>72</td>
+                                    <td>0.72%</td>
+                                </tr>
+                
+                                <tr>
+                                    <td>Consolidate</td>
+                                    <td>59</td>
+                                    <td>0.59%</td>
+                                </tr>
+                
+                                <tr>
+                                    <td>Credit Card Refinance</td>
+                                    <td>55</td>
+                                    <td>0.55%</td>
+                                </tr>
+                
+                                <tr>
+                                    <td>Credit Card Payoff</td>
+                                    <td>54</td>
+                                    <td>0.54%</td>
+                                </tr>
+                
+                                <tr>
+                                    <td>Personal</td>
+                                    <td>53</td>
+                                    <td>0.53%</td>
+                                </tr>
+                
+                                <tr>
+                                    <td>Loan</td>
+                                    <td>49</td>
+                                    <td>0.49%</td>
+                                </tr>
+                
+                                <tr>
+                                    <td>Major purchase</td>
+                                    <td>36</td>
+                                    <td>0.36%</td>
+                                </tr>
+                
+                                <tr>
+                                    <td>Business</td>
+                                    <td>35</td>
+                                    <td>0.35%</td>
+                                </tr>
+                
+                            </table>
+                        </div>
+                    </div>
+            
+                </div>
+            </div>
+        
+            <div class="feature-section">
+                <h3>
+                    <span class="importance-indicator low-importance"></span>
+                    total_rec_prncp 
+                    <span class="toggle-button" id="feature-total_rec_prncp-toggle" onclick="toggleSection('feature-total_rec_prncp')">[-]</span>
+                </h3>
+                
+                <div id="feature-total_rec_prncp" class="collapsible">
+                    <p><strong>Importance Score:</strong> 0.0054</p>
+        
+                    <div class="visualization">
+                        <img src="feature_analysis/plots/total_rec_prncp_distribution.png" alt="total_rec_prncp Distribution">
+                    </div>
+            
+                    <div class="stats-card">
+                        <h4>Descriptive Statistics</h4>
+                        <div class="stats-table">
+                            <table>
+                                <tr>
+                                    <th>Statistic</th>
+                                    <th>Value</th>
+                                    <th>Percentile</th>
+                                    <th>Value</th>
+                                </tr>
+                                <tr>
+                                    <td>Mean</td>
+                                    <td>10715.5637</td>
+                                    <td>5th Percentile</td>
+                                    <td>1678.2965</td>
+                                </tr>
+                                <tr>
+                                    <td>Median</td>
+                                    <td>9192.3850</td>
+                                    <td>25th Percentile</td>
+                                    <td>5302.3850</td>
+                                </tr>
+                                <tr>
+                                    <td>Standard Deviation</td>
+                                    <td>7326.3721</td>
+                                    <td>75th Percentile</td>
+                                    <td>14503.3275</td>
+                                </tr>
+                                <tr>
+                                    <td>Minimum</td>
+                                    <td>0.0000</td>
+                                    <td>95th Percentile</td>
+                                    <td>25000.0000</td>
+                                </tr>
+                                <tr>
+                                    <td>Maximum</td>
+                                    <td>35000.0200</td>
+                                    <td>Skewness</td>
+                                    <td>1.1080</td>
+                                </tr>
+                                <tr>
+                                    <td>Missing Values</td>
+                                    <td>0 (0.00%)</td>
+                                    <td>Kurtosis</td>
+                                    <td>1.0238</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+            
+                </div>
+            </div>
+        
+            <div class="feature-section">
+                <h3>
+                    <span class="importance-indicator low-importance"></span>
+                    emp_title 
+                    <span class="toggle-button" id="feature-emp_title-toggle" onclick="toggleSection('feature-emp_title')">[-]</span>
+                </h3>
+                
+                <div id="feature-emp_title" class="collapsible">
+                    <p><strong>Importance Score:</strong> 0.0047</p>
+        
+                    <div class="visualization">
+                        <img src="feature_analysis/plots/emp_title_distribution.png" alt="emp_title Distribution">
+                    </div>
+            
+                    <div class="stats-card">
+                        <h4>Category Distribution</h4>
+                        <p><strong>Unique values:</strong> 8159</p>
+                        <p><strong>Most common:</strong> Teacher (0.37%)</p>
+                        <p><strong>Missing values:</strong> 608 (6.08%)</p>
+                        
+                        <div class="stats-table">
+                            <table>
+                                <tr>
+                                    <th>Category</th>
+                                    <th>Count</th>
+                                    <th>Percentage</th>
+                                </tr>
+            
+                                <tr>
+                                    <td>Teacher</td>
+                                    <td>35</td>
+                                    <td>0.37%</td>
+                                </tr>
+                
+                                <tr>
+                                    <td>Manager</td>
+                                    <td>33</td>
+                                    <td>0.35%</td>
+                                </tr>
+                
+                                <tr>
+                                    <td>US Army</td>
+                                    <td>23</td>
+                                    <td>0.24%</td>
+                                </tr>
+                
+                                <tr>
+                                    <td>Bank of America</td>
+                                    <td>22</td>
+                                    <td>0.23%</td>
+                                </tr>
+                
+                                <tr>
+                                    <td>Registered Nurse</td>
+                                    <td>20</td>
+                                    <td>0.21%</td>
+                                </tr>
+                
+                                <tr>
+                                    <td>Supervisor</td>
+                                    <td>19</td>
+                                    <td>0.20%</td>
+                                </tr>
+                
+                                <tr>
+                                    <td>USAF</td>
+                                    <td>18</td>
+                                    <td>0.19%</td>
+                                </tr>
+                
+                                <tr>
+                                    <td>Kaiser Permanente</td>
+                                    <td>16</td>
+                                    <td>0.17%</td>
+                                </tr>
+                
+                                <tr>
+                                    <td>RN</td>
+                                    <td>14</td>
+                                    <td>0.15%</td>
+                                </tr>
+                
+                                <tr>
+                                    <td>Sales</td>
+                                    <td>14</td>
+                                    <td>0.15%</td>
+                                </tr>
+                
+                                <tr>
+                                    <td>AT&T</td>
+                                    <td>14</td>
+                                    <td>0.15%</td>
+                                </tr>
+                
+                                <tr>
+                                    <td>Department of Defense</td>
+                                    <td>13</td>
+                                    <td>0.14%</td>
+                                </tr>
+                
+                                <tr>
+                                    <td>Office Manager</td>
+                                    <td>13</td>
+                                    <td>0.14%</td>
+                                </tr>
+                
+                                <tr>
+                                    <td>Director</td>
+                                    <td>13</td>
+                                    <td>0.14%</td>
+                                </tr>
+                
+                                <tr>
+                                    <td>United States Postal Service</td>
+                                    <td>12</td>
+                                    <td>0.13%</td>
+                                </tr>
+                
+                                <tr>
+                                    <td>Wells Fargo</td>
+                                    <td>12</td>
+                                    <td>0.13%</td>
+                                </tr>
+                
+                                <tr>
+                                    <td>US Postal Service</td>
+                                    <td>12</td>
+                                    <td>0.13%</td>
+                                </tr>
+                
+                                <tr>
+                                    <td>Walmart</td>
+                                    <td>11</td>
+                                    <td>0.12%</td>
+                                </tr>
+                
+                                <tr>
+                                    <td>Assistant Manager</td>
+                                    <td>11</td>
+                                    <td>0.12%</td>
+                                </tr>
+                
+                                <tr>
+                                    <td>IBM</td>
+                                    <td>10</td>
+                                    <td>0.11%</td>
+                                </tr>
+                
+                            </table>
+                        </div>
+                    </div>
+            
+                </div>
+            </div>
+        
+            <div class="feature-section">
+                <h3>
+                    <span class="importance-indicator low-importance"></span>
+                    total_pymnt_inv 
+                    <span class="toggle-button" id="feature-total_pymnt_inv-toggle" onclick="toggleSection('feature-total_pymnt_inv')">[-]</span>
+                </h3>
+                
+                <div id="feature-total_pymnt_inv" class="collapsible">
+                    <p><strong>Importance Score:</strong> 0.0034</p>
+        
+                    <div class="visualization">
+                        <img src="feature_analysis/plots/total_pymnt_inv_distribution.png" alt="total_pymnt_inv Distribution">
+                    </div>
+            
+                    <div class="stats-card">
+                        <h4>Descriptive Statistics</h4>
+                        <div class="stats-table">
+                            <table>
+                                <tr>
+                                    <th>Statistic</th>
+                                    <th>Value</th>
+                                    <th>Percentile</th>
+                                    <th>Value</th>
+                                </tr>
+                                <tr>
+                                    <td>Mean</td>
+                                    <td>13593.1821</td>
+                                    <td>5th Percentile</td>
+                                    <td>2535.7410</td>
+                                </tr>
+                                <tr>
+                                    <td>Median</td>
+                                    <td>11651.0700</td>
+                                    <td>25th Percentile</td>
+                                    <td>7070.5450</td>
+                                </tr>
+                                <tr>
+                                    <td>Standard Deviation</td>
+                                    <td>8895.4447</td>
+                                    <td>75th Percentile</td>
+                                    <td>18164.8775</td>
+                                </tr>
+                                <tr>
+                                    <td>Minimum</td>
+                                    <td>0.0000</td>
+                                    <td>95th Percentile</td>
+                                    <td>31382.7900</td>
+                                </tr>
+                                <tr>
+                                    <td>Maximum</td>
+                                    <td>52014.3900</td>
+                                    <td>Skewness</td>
+                                    <td>1.0987</td>
+                                </tr>
+                                <tr>
+                                    <td>Missing Values</td>
+                                    <td>0 (0.00%)</td>
+                                    <td>Kurtosis</td>
+                                    <td>1.1526</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+            
+                </div>
+            </div>
+        
+            <div class="feature-section">
+                <h3>
+                    <span class="importance-indicator low-importance"></span>
+                    funded_amnt 
+                    <span class="toggle-button" id="feature-funded_amnt-toggle" onclick="toggleSection('feature-funded_amnt')">[-]</span>
+                </h3>
+                
+                <div id="feature-funded_amnt" class="collapsible">
+                    <p><strong>Importance Score:</strong> 0.0020</p>
+        
+                    <div class="visualization">
+                        <img src="feature_analysis/plots/funded_amnt_distribution.png" alt="funded_amnt Distribution">
+                    </div>
+            
+                    <div class="stats-card">
+                        <h4>Descriptive Statistics</h4>
+                        <div class="stats-table">
+                            <table>
+                                <tr>
+                                    <th>Statistic</th>
+                                    <th>Value</th>
+                                    <th>Percentile</th>
+                                    <th>Value</th>
+                                </tr>
+                                <tr>
+                                    <td>Mean</td>
+                                    <td>13827.4250</td>
+                                    <td>5th Percentile</td>
+                                    <td>3073.7500</td>
+                                </tr>
+                                <tr>
+                                    <td>Median</td>
+                                    <td>12000.0000</td>
+                                    <td>25th Percentile</td>
+                                    <td>8000.0000</td>
+                                </tr>
+                                <tr>
+                                    <td>Standard Deviation</td>
+                                    <td>8079.7075</td>
+                                    <td>75th Percentile</td>
+                                    <td>19200.0000</td>
+                                </tr>
+                                <tr>
+                                    <td>Minimum</td>
+                                    <td>1000.0000</td>
+                                    <td>95th Percentile</td>
+                                    <td>30000.0000</td>
+                                </tr>
+                                <tr>
+                                    <td>Maximum</td>
+                                    <td>35000.0000</td>
+                                    <td>Skewness</td>
+                                    <td>0.7599</td>
+                                </tr>
+                                <tr>
+                                    <td>Missing Values</td>
+                                    <td>0 (0.00%)</td>
+                                    <td>Kurtosis</td>
+                                    <td>-0.0325</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+            
+                </div>
+            </div>
+        
+            <div class="feature-section">
+                <h3>
+                    <span class="importance-indicator low-importance"></span>
+                    total_pymnt 
+                    <span class="toggle-button" id="feature-total_pymnt-toggle" onclick="toggleSection('feature-total_pymnt')">[-]</span>
+                </h3>
+                
+                <div id="feature-total_pymnt" class="collapsible">
+                    <p><strong>Importance Score:</strong> 0.0018</p>
+        
+                    <div class="visualization">
+                        <img src="feature_analysis/plots/total_pymnt_distribution.png" alt="total_pymnt Distribution">
+                    </div>
+            
+                    <div class="stats-card">
+                        <h4>Descriptive Statistics</h4>
+                        <div class="stats-table">
+                            <table>
+                                <tr>
+                                    <th>Statistic</th>
+                                    <th>Value</th>
+                                    <th>Percentile</th>
+                                    <th>Value</th>
+                                </tr>
+                                <tr>
+                                    <td>Mean</td>
+                                    <td>13731.5755</td>
+                                    <td>5th Percentile</td>
+                                    <td>2707.9282</td>
+                                </tr>
+                                <tr>
+                                    <td>Median</td>
+                                    <td>11782.8299</td>
+                                    <td>25th Percentile</td>
+                                    <td>7197.4225</td>
+                                </tr>
+                                <tr>
+                                    <td>Standard Deviation</td>
+                                    <td>8895.0299</td>
+                                    <td>75th Percentile</td>
+                                    <td>18260.4891</td>
+                                </tr>
+                                <tr>
+                                    <td>Minimum</td>
+                                    <td>0.0000</td>
+                                    <td>95th Percentile</td>
+                                    <td>31540.4598</td>
+                                </tr>
+                                <tr>
+                                    <td>Maximum</td>
+                                    <td>52014.3900</td>
+                                    <td>Skewness</td>
+                                    <td>1.1110</td>
+                                </tr>
+                                <tr>
+                                    <td>Missing Values</td>
+                                    <td>0 (0.00%)</td>
+                                    <td>Kurtosis</td>
+                                    <td>1.1944</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+            
+                </div>
+            </div>
+        
+            <div class="feature-section">
+                <h3>
+                    <span class="importance-indicator low-importance"></span>
+                    last_pymnt_amnt 
+                    <span class="toggle-button" id="feature-last_pymnt_amnt-toggle" onclick="toggleSection('feature-last_pymnt_amnt')">[-]</span>
+                </h3>
+                
+                <div id="feature-last_pymnt_amnt" class="collapsible">
+                    <p><strong>Importance Score:</strong> 0.0000</p>
+        
+                    <div class="visualization">
+                        <img src="feature_analysis/plots/last_pymnt_amnt_distribution.png" alt="last_pymnt_amnt Distribution">
+                    </div>
+            
+                    <div class="stats-card">
+                        <h4>Descriptive Statistics</h4>
+                        <div class="stats-table">
+                            <table>
+                                <tr>
+                                    <th>Statistic</th>
+                                    <th>Value</th>
+                                    <th>Percentile</th>
+                                    <th>Value</th>
+                                </tr>
+                                <tr>
+                                    <td>Mean</td>
+                                    <td>3667.4149</td>
+                                    <td>5th Percentile</td>
+                                    <td>106.2040</td>
+                                </tr>
+                                <tr>
+                                    <td>Median</td>
+                                    <td>654.4050</td>
+                                    <td>25th Percentile</td>
+                                    <td>332.1000</td>
+                                </tr>
+                                <tr>
+                                    <td>Standard Deviation</td>
+                                    <td>5691.5315</td>
+                                    <td>75th Percentile</td>
+                                    <td>5076.1525</td>
+                                </tr>
+                                <tr>
+                                    <td>Minimum</td>
+                                    <td>0.0000</td>
+                                    <td>95th Percentile</td>
+                                    <td>16558.3620</td>
+                                </tr>
+                                <tr>
+                                    <td>Maximum</td>
+                                    <td>35635.1000</td>
+                                    <td>Skewness</td>
+                                    <td>2.1773</td>
+                                </tr>
+                                <tr>
+                                    <td>Missing Values</td>
+                                    <td>0 (0.00%)</td>
+                                    <td>Kurtosis</td>
+                                    <td>4.8876</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+            
+                </div>
+            </div>
+        
+            <h2>Feature Analysis Summary</h2>
+            <div class="stats-highlight">
+                <p>Based on the feature analysis above, we can draw the following conclusions:</p>
+                <ul>
+                    <li>The most predictive features for credit risk are those with strong correlations to default and clear separations between defaulters and non-defaulters.</li>
+                    <li>Features with high importance scores should be prioritized in the credit risk assessment process.</li>
+                    <li>Categorical variables with high variance in default rates across categories are particularly useful for risk segmentation.</li>
+                    <li>Features with high correlations to each other may contain redundant information and could potentially be combined or one could be removed.</li>
+                </ul>
+            </div>
+            
+            <div class="nav-links">
+                <a href="multi_model_comparison.html" class="nav-button">← Model Comparison</a>
+                <a href="confusion_matrix_analysis.html" class="nav-button">Confusion Matrix Analysis →</a>
+            </div>
+            
+            <footer>
+                <p>AB InBev Credit Risk Analysis • Feature Analysis</p>
+            </footer>
+        </div>
+    </body>
+    </html>
+    
